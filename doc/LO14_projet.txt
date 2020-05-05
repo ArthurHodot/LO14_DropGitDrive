@@ -1,0 +1,58 @@
+Fonction d'exploration de dossier/fichier (utilisation ls) PARAMs : le nom du dossier a explorer (depuis la racine A et B)
+(recursive sur les dossiers)
+-> comparaison dossier courant (nom, droit d'acces)-(pas la date, pas la taille) !->Fonction de comparaison de dossiers
+(si il en manque un on le crée)
+-> séparation fichiers / dossiers et trie ordre alhphabetique et !->Fonction de comparaison type
+--> comparaisons des fichiers du dossier courant (nom, droits, taille, date, #Contenus) !->Fonction de comparaison de dossiers
+--> Rappel de la fonction (recursion) pour les dossiers contenus dans le dossier courant
+
+Fonction de comparaison de fichiers
+
+Fonction de comparaison de dossiers 
+-> On regarde le dossier A (nom, droit d'acces)-(pas la date, pas la taille)
+-> On regarde le dossier B (nom, droit d'acces)-(pas la date, pas la taille)
+-> SI il y en a un qui n'existe pas en A ou B
+--> On le copie avec tout son contenu vers la branche manquante
+
+Fonction de comparaison type (fichier/dossier) PARAMs : le nom du (fichier/dossier)
+-> On regarde le type de A
+-> On regarde le type de B
+-> On renvoit si c'est la même ou pas.
+-> Si il y en a un qui existe pas 
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+-> Verifier si un fichier/dossier a un equivalent !-> Peut avoir sa fonction
+--> Si non on le crée/copie !-> Fonction a part sur
+--> Si oui
+---> Verifier si ces equivalent ont le même types !-> Peut avoir sa fonction
+----> Si non conflicts 
+----> Si oui 
+-----> Classement dossiers/fichiers séparés
+-----> comparaison !-> Fonctions de comparaisons (fichiers/dossiers)
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+legende :
+# partie 2
+!-> renvoie vers une fonction existante
+
+
+Regles du synchroniseur
+
+Le synchroniseur parcourt les deux arbres A et B en parallèle.
+Pour tout fichier p, il effectue les actions suivantes :
+
+– Si p/A et un répertoire et p/B est un fichier ordinaire ou l’inverse, il y a conflit.
+
+– sinon, si p/A et p/B sont tous deux des répertoires, il descend récursivement.
+
+– sinon, si p/A et p/B sont deux fichiers ordinaires qui ont les même modes, taille et date de dernière modification, la
+synchronisation est réussie, et il n’y rien à faire.
+
+– sinon, si p/A est conforme au fichier de journal et p/B ne l’est pas, ce dernier a changé ; il faut alors copier le contenu, le
+mode et la date de dernière modification de p/B vers p/A.
+
+– inversement, si p/B est conforme au fichier de journal et p/A ne l’est pas, c’est de p/A vers p/B qu’il faut faire la copie.
+
+– enfin, si p/A et p/B sont tous deux des fichiers ordinaires, et aucun des deux n’est conforme au fichier de journal (soit parce
+qu’il n’y a pas d’entrée pour p, soit parce que celle-ci ne correspond pas aux métadonnées des deux fichiers), il y a
+conflit.
