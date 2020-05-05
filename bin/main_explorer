@@ -12,60 +12,97 @@ then
 fi
 
 #Saving in one array all the element of the FileA
-declare -a contained_File_A
-AFiles=$(ls $1)
+declare -a contained_element_A
+elementsA=$(ls $1)
 iterator=0
 
-for element in $AFiles
+for element in $elementsA
 do
-        contained_File_A[$iterator]=$element
+        contained_element_A[$iterator]=$element
 	iterator=$((iterator+=1))
 done
 
 #Saving in one array all the element of the FileB
-declare -a contained_File_B
-BFiles=$(ls $2)
+declare -a contained_element_B
+elementsB=$(ls $2)
 iterator=0
 
-for element in $BFiles
+for element in $elementsB
 do
-        contained_File_B[$iterator]=$element
+        contained_element_B[$iterator]=$element
 	iterator=$((iterator+=1))
 done
 
-#Finding equivalence between contained_File_A and contained_File_B
+#Finding equivalence between contained_element_A and contained_element_B
+declare -a contained_files_A
+declare -a contained_files_B
+declare -a contained_dir_A
+declare -a contained_dir_B
 iteratorA=0
 iteratorB=0
 stop=1
 
 while [ $stop -eq 1 ] 
 do
-	#If A and B are not the same we same
-        if [ "${contained_File_A[$iteratorA]}" != "${contained_File_B[$iteratorB]}" ]
+	element_A=${contained_element_A[$iteratorA]}
+	element_B=${contained_element_B[$iteratorB]}
+	#If A and B are not the same
+        if [ "$element_A" != "$element_B" ]
         then
                 #Noticing the user that a missmatch is found and copy the missing element in the file
-		echo "difference trouvé : A "${contained_File_A[$iteratorA]}" B "${contained_File_B[$iteratorB]}
-		if [ "${contained_File_A[$iteratorA]}" > "${contained_File_B[$iteratorB]}" ]
+		echo "difference trouvé : A "$element_A" B "$element_B
+		if [ "$element_A" > "$element_B" ]
 		then
 			echo on copie de A vers B
-			$(cp "$1/${contained_File_A[$iteratorA]}" "$2/${contained_File_A[$iteratorA]}")			
+			$(cp "$1/$element_A" "$2/$element_A")			
 			 iteratorA=$((iteratorA+=1))
-
 		else
 			echo on copie de B vers A
-			$(cp "$2/${contained_File_B[$iteratorB]}" "$1/${contained_File_B[$iteratorB]}")
+			$(cp "$2/$element_B" "$1/$element_B")
 			iteratorB=$((iteratorB+=1))
 		fi	
+	#We do some tests about the type
 	else
+		#file and file
+		if [ -f "$1/$element_A" -a -f "$2/$element_B" ]
+		then
+			contained_files_A[${contained_files_A[@]}]=$element_A
+			contained_files_B[${contained_files_B[@]}]=$element_B
+		fi
+
+		#dir and dir
+		if [ -d "$1/$element_A" -a -d "$2/$element_B" ]
+                then
+                        contained_dir_A[${contained_dir_A[@]}]=$element_A
+                        contained_dir_B[${contained_dir_B[@]}]=$element_B
+                fi
+
+		#conflict dir/file or file/dir
+		if [ -d "$1/$element_A" -a -f "$2/$element_B" ] || [ -f "$1/$element_A" -a -d "$2/$element_B" ]
+		then
+			echo conflict entre $element_A et $element_B
+		fi
+
+
+
+
 		iteratorA=$((iteratorA+=1))
 		iteratorB=$((iteratorB+=1))
 	fi
 	
 	#Exiting from the loop
-	if [ $iteratorA -ge ${#contained_File_A[@]} ] && [ $iteratorB -ge ${#contained_File_B[@]} ]
+	if [ $iteratorA -ge ${#contained_element_A[@]} ] && [ $iteratorB -ge ${#contained_element_B[@]} ]
 	then
 		stop=0
 	fi
 
 done
+
+echo "ceci n'est pas en conflict :"
+echo fichiers de A
+for fa in ${contained_files_A[@]}
+do
+        echo $fa
+done
+
 
