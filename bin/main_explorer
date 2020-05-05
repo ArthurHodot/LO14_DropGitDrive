@@ -1,0 +1,71 @@
+#!/bin/bash
+
+#Exit code
+INVALID_NUMBER_OF_ARGUMENTS=1
+
+####################################ON DOIT COMPARER LES DOSSIERS ICI#####################
+
+if [ $# -lt 2 ]
+then
+        echo "Invalid number of arguments\n You need to use $0 treeA treeB log"
+        exit $INVALID_NUMBER_OF_ARGUMENTS
+fi
+
+#Saving in one array all the element of the FileA
+declare -a contained_File_A
+AFiles=$(ls $1)
+iterator=0
+
+for element in $AFiles
+do
+        contained_File_A[$iterator]=$element
+	iterator=$((iterator+=1))
+done
+
+#Saving in one array all the element of the FileB
+declare -a contained_File_B
+BFiles=$(ls $2)
+iterator=0
+
+for element in $BFiles
+do
+        contained_File_B[$iterator]=$element
+	iterator=$((iterator+=1))
+done
+
+#Finding equivalence between contained_File_A and contained_File_B
+iteratorA=0
+iteratorB=0
+stop=1
+
+while [ $stop -eq 1 ] 
+do
+	#If A and B are not the same we same
+        if [ "${contained_File_A[$iteratorA]}" != "${contained_File_B[$iteratorB]}" ]
+        then
+                #Noticing the user that a missmatch is found and copy the missing element in the file
+		echo "difference trouvé : A "${contained_File_A[$iteratorA]}" B "${contained_File_B[$iteratorB]}
+		if [ "${contained_File_A[$iteratorA]}" > "${contained_File_B[$iteratorB]}" ]
+		then
+			echo on copie de A vers B
+			$(cp "$1/${contained_File_A[$iteratorA]}" "$2/${contained_File_A[$iteratorA]}")			
+			 iteratorA=$((iteratorA+=1))
+
+		else
+			echo on copie de B vers A
+			$(cp "$2/${contained_File_B[$iteratorB]}" "$1/${contained_File_B[$iteratorB]}")
+			iteratorB=$((iteratorB+=1))
+		fi	
+	else
+		iteratorA=$((iteratorA+=1))
+		iteratorB=$((iteratorB+=1))
+	fi
+	
+	#Exiting from the loop
+	if [ $iteratorA -ge ${#contained_File_A[@]} ] && [ $iteratorB -ge ${#contained_File_B[@]} ]
+	then
+		stop=0
+	fi
+
+done
+
