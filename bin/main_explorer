@@ -34,12 +34,12 @@ do
 done
 
 #Finding equivalence between contained_element_A and contained_element_B
-declare -a contained_files_A
-declare -a contained_files_B
-declare -a contained_dir_A
-declare -a contained_dir_B
+declare -a contained_files
+declare -a contained_dir
 iteratorA=0
 iteratorB=0
+iteratorFiles=0
+IteratorDir=0
 stop=1
 
 while [ $stop -eq 1 ] 
@@ -66,15 +66,15 @@ do
 		#file and file
 		if [ -f "$1/$element_A" -a -f "$2/$element_B" ]
 		then
-			contained_files_A[${contained_files_A[@]}]=$element_A
-			contained_files_B[${contained_files_B[@]}]=$element_B
+			contained_files[$iteratorFiles]=$element_A
+			iteratorFiles=$((iteratorFiles+=1))
 		fi
 
 		#dir and dir
 		if [ -d "$1/$element_A" -a -d "$2/$element_B" ]
                 then
-                        contained_dir_A[${contained_dir_A[@]}]=$element_A
-                        contained_dir_B[${contained_dir_B[@]}]=$element_B
+			contained_dir[$iteratorDir]=$element_A
+			iteratorDir=$((iteratorDir+=1))
                 fi
 
 		#conflict dir/file or file/dir
@@ -99,10 +99,15 @@ do
 done
 
 echo "ceci n'est pas en conflict :"
-echo fichiers de A
-for fa in ${contained_files_A[@]}
+echo fichiers :
+for file in ${contained_files[@]}
 do
-        echo $fa
+        echo $file
+done
+echo dossiers : 
+for dir in ${contained_dir[@]}
+do
+        echo $dir
 done
 
 
