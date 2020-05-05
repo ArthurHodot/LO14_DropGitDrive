@@ -2,23 +2,37 @@ Fonction d'exploration de dossier/fichier (utilisation ls) PARAMs : le nom du do
 (recursive sur les dossiers)
 -> comparaison dossier courant (nom, droit d'acces)-(pas la date, pas la taille) !->Fonction de comparaison de dossiers
 (si il en manque un on le crée)
--> séparation fichiers / dossiers et trie ordre alhphabetique et !->Fonction de comparaison type
---> comparaisons des fichiers du dossier courant (nom, droits, taille, date, #Contenus) !->Fonction de comparaison de dossiers
---> Rappel de la fonction (recursion) pour les dossiers contenus dans le dossier courant
+-> Liste tout elements de A et liste tout element de B
+-> Verifier si un element (fichier/dossier) a un equivalent
+--> Si non on le crée/copie !-> Fonction a part sur
+--> Si oui
+---> Verifier si ces equivalent ont le même types !-> Peut avoir sa fonction
+----> Si non conflicts 
+----> Si oui 
+-----> Classement dossiers/fichiers séparés
+-----> comparaison tous les fichiers !-> Fonctions de comparaisons fichiers
+-----> Rappel de la fonction (recursion) pour tous les dossiers
+
+
 
 Fonction de comparaison de fichiers
+-> On regarde le fichier A (nom, droit d'acces, date, taille, #contenus)
+-> On regarde le fichier B (nom, droit d'acces, date, taille, #contenus)
+-> On compare
 
 Fonction de comparaison de dossiers 
 -> On regarde le dossier A (nom, droit d'acces)-(pas la date, pas la taille)
 -> On regarde le dossier B (nom, droit d'acces)-(pas la date, pas la taille)
--> SI il y en a un qui n'existe pas en A ou B
---> On le copie avec tout son contenu vers la branche manquante
+-> On compare
 
 Fonction de comparaison type (fichier/dossier) PARAMs : le nom du (fichier/dossier)
 -> On regarde le type de A
 -> On regarde le type de B
 -> On renvoit si c'est la même ou pas.
 -> Si il y en a un qui existe pas 
+
+Fonction conflicts PARAMs : emplacementConflitc1 emplacementConflict2
+-> Echo PTDR CONFLICT
 
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 -> Verifier si un fichier/dossier a un equivalent !-> Peut avoir sa fonction
