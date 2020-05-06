@@ -31,3 +31,5 @@ then
 		$(./element_duplicator "$1/$element" "$2/$element")
 	done
 fi
+
+exit 0
