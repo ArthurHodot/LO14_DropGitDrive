@@ -98,11 +98,9 @@ do
 
 done
 
-echo "ceci n'est pas en conflict :"
-echo fichiers :
 for file in ${contained_files[@]}
 do
-        echo $file
+	$(./file_comparator "$1/$file" "$2/$file")
 done
 echo dossiers : 
 for dir in ${contained_dir[@]}

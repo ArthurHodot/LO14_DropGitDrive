@@ -1,9 +1,9 @@
 #!/bin/bash
-#Codé avec le cul par mes soins
+
 #Compare 2 files with all metadata (size, permission, date of last modification)
 
 #Check args validity
-if [ $# -ne 2 ]
+if [ $# -ne 2 ]
 then
 	echo "Usage $0 : pathFile1 pathFile2"
 	exit 1
