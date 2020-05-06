@@ -3,13 +3,14 @@
 #Exit code
 INVALID_NUMBER_OF_ARGUMENTS=1
 
-####################################ON DOIT COMPARER LES DOSSIERS ICI#####################
 
 if [ $# -lt 2 ]
 then
         echo "Invalid number of arguments\n You need to use $0 treeA treeB log"
         exit $INVALID_NUMBER_OF_ARGUMENTS
 fi
+
+####################################ON DOIT COMPARER LES DOSSIERS ICI#####################
 
 #Saving in one array all the element of the FileA
 declare -a contained_element_A
@@ -54,11 +55,13 @@ do
 		if [ "$element_A" > "$element_B" ]
 		then
 			echo on copie de A vers B
-			$(cp "$1/$element_A" "$2/$element_A")			
+			#$(cp "$1/$element_A" "$2/$element_A")
+			$(./element_duplicator "$1/$element_A" "$2/$element_A")			
 			 iteratorA=$((iteratorA+=1))
 		else
 			echo on copie de B vers A
-			$(cp "$2/$element_B" "$1/$element_B")
+			#$(cp "$2/$element_B" "$1/$element_B")
+			$(./element_duplicator "$2/$element_B" "$1/$element_B")
 			iteratorB=$((iteratorB+=1))
 		fi	
 	#We do some tests about the type
@@ -82,9 +85,6 @@ do
 		then
 			echo conflict entre $element_A et $element_B
 		fi
-
-
-
 
 		iteratorA=$((iteratorA+=1))
 		iteratorB=$((iteratorB+=1))

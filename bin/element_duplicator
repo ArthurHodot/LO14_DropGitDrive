@@ -1,0 +1,33 @@
+#!/bin/bash
+
+#Script that take two PATH $1 and $2 and copy the element in $1 in $2
+#$1 and $2 need to be clear and mention the name of the file or directory at the end of the PATH
+
+#Exit code
+INVALID_NUMBER_OF_ARGUMENTS=1
+
+if [ $# -lt 2 ] 
+then
+	exit $INVALID_NUMBER_OF_ARGUMENTS
+fi
+
+#If the element to duplicate is a file
+if [ -f "$1" ]
+then    
+	$(cp "$1" "$2")
+	$(touch "$2" -mr "$1")
+fi
+
+#If the element to duplicate is a directory
+if [ -d "$1" ]
+then
+	#copying the directory
+	$(mkdir "$2")
+	$(touch "$2" -mr "$1")
+	#cpying all the element contained in the directory
+	elements=$(ls "$1")
+	for element in $elements
+	do
+		$(./element_duplicator "$1/$element" "$2/$element")
+	done
+fi
