@@ -15,12 +15,12 @@ Fonction d'exploration de dossier/fichier (utilisation ls) PARAMs : le nom du do
 
 
 
-Fonction de comparaison de fichiers
+Fonction de comparaison de fichiers (file_comparator)
 -> On regarde le fichier A (nom, droit d'acces, date, taille, #contenus)
 -> On regarde le fichier B (nom, droit d'acces, date, taille, #contenus)
 -> On compare
 
-Fonction de comparaison de dossiers 
+Fonction de comparaison de dossiers (dir_comparator)
 -> On regarde le dossier A (nom, droit d'acces)-(pas la date, pas la taille)
 -> On regarde le dossier B (nom, droit d'acces)-(pas la date, pas la taille)
 -> On compare

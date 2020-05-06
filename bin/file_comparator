@@ -1,0 +1,45 @@
+#!/bin/bash
+#Codé avec le cul par mes soins
+#Compare 2 files with all metadata (size, permission, date of last modification)
+
+#Check args validity
+if [ $# -ne 2 ]
+then
+	echo "Usage $0 : pathFile1 pathFile2"
+	exit 1
+elif [[ ! -f $1 ]]
+then
+	echo "File not found : $1"
+elif [[ ! -f $2 ]]
+then
+	echo "File not found : $2"
+fi
+
+#Compare size
+sizeFile1=$(du -b $1)
+sizeFile2=$(du -b $2)
+if [ $sizeFile1 -ne $sizeFile2 ]
+then
+	echo "Size conflict ! Calling conflict function..."
+	######## CALL CONFLICT FUNCTION HERE ########
+fi
+
+#Compare last modification date
+dateFile1=$(stat -c %Y $1) #Print this date in seconds since Epoch
+dateFile2=$(stat -c %Y $2)
+if [ $dateFile1 -ne $dateFile2 ]
+then
+	echo "Last Modification Conflict ! Calling conflict function ..."
+	######## CALL CONFLICT FUNCTION HERE ########
+fi
+
+#Compare permission
+permFile1=$(stat -c %a $1)
+permFile2=$(stat -c %a $2)
+if [ $permFile1 -ne $permFile2 ]
+then
+	echo "Permission conflict ! Calling conflict function ..."
+	######## CALL CONFLICT FUNCTION HERE ########
+fi
+
+exit 0
