@@ -10,7 +10,8 @@ then
         exit $INVALID_NUMBER_OF_ARGUMENTS
 fi
 
-####################################ON DOIT COMPARER LES DOSSIERS ICI#####################
+#Compare the two file that we explore
+./dir_comparator "$1" "$2"
 
 #Saving in one array all the element of the FileA
 declare -a contained_element_A
@@ -107,12 +108,12 @@ do
 done
 echo dossiers : 
 
-#Comparaison on all directorys
+#Exploration of the other directorys
 for dir in ${contained_dir[@]}
 do
         echo "$1/$dir"
         echo "$2/$dir"
-        ./dir_comparator "$1/$dir" "$2/$dir"
+        ./main_comparator "$1/$dir" "$2/$dir"
 done
 
 exit 0
