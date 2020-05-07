@@ -1,5 +1,5 @@
 #!/bin/bash
-#Codé avec le cul par mes soins
+
 #Compare 2 directories with all metadata (permission)
 
 #Check args validity

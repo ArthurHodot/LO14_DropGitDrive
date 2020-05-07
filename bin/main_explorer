@@ -20,7 +20,8 @@ iterator=0
 
 for element in $elementsA
 do
-        contained_element_A[$iterator]=$element
+	echo "$element"
+        contained_element_A[$iterator]="$element"
 	iterator=$((iterator+=1))
 done
 
@@ -31,7 +32,7 @@ iterator=0
 
 for element in $elementsB
 do
-        contained_element_B[$iterator]=$element
+        contained_element_B[$iterator]="$element"
 	iterator=$((iterator+=1))
 done
 
