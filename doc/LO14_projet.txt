@@ -4,23 +4,25 @@ Fonction d'exploration de dossier/fichier (utilisation ls) PARAMs : le nom du do
 (si il en manque un on le crée)
 -> Liste tout elements de A et liste tout element de B
 -> Verifier si un element (fichier/dossier) a un equivalent
---> Si non on le crée/copie !-> Fonction a part sur
+--> Si non on le crée/copie !-> Fonction de copie d'un dossier/fichier
 --> Si oui
 ---> Verifier si ces equivalent ont le même types !-> Peut avoir sa fonction
-----> Si non conflicts 
-----> Si oui 
+----> Si non conflicts
+----> Si oui
 -----> Classement dossiers/fichiers séparés
 -----> comparaison tous les fichiers !-> Fonctions de comparaisons fichiers
 -----> Rappel de la fonction (recursion) pour tous les dossiers
 
+Fonction de copie d'un dossier/fichier PARAMs onCopieQuoi / Ou
+->
+->
 
-
-Fonction de comparaison de fichiers (file_comparator)
+Fonction de comparaison de fichiers
 -> On regarde le fichier A (nom, droit d'acces, date, taille, #contenus)
 -> On regarde le fichier B (nom, droit d'acces, date, taille, #contenus)
 -> On compare
 
-Fonction de comparaison de dossiers (dir_comparator)
+Fonction de comparaison de dossiers 
 -> On regarde le dossier A (nom, droit d'acces)-(pas la date, pas la taille)
 -> On regarde le dossier B (nom, droit d'acces)-(pas la date, pas la taille)
 -> On compare
@@ -33,6 +35,12 @@ Fonction de comparaison type (fichier/dossier) PARAMs : le nom du (fichier/dossi
 
 Fonction conflicts PARAMs : emplacementConflitc1 emplacementConflict2
 -> Echo PTDR CONFLICT
+
+Fonction de copie
+
+Fonction gestion de conflicts PARAMS $quiPrime $surQui
+->
+->
 
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 -> Verifier si un fichier/dossier a un equivalent !-> Peut avoir sa fonction
@@ -70,3 +78,106 @@ mode et la date de dernière modification de p/B vers p/A.
 – enfin, si p/A et p/B sont tous deux des fichiers ordinaires, et aucun des deux n’est conforme au fichier de journal (soit parce
 qu’il n’y a pas d’entrée pour p, soit parce que celle-ci ne correspond pas aux métadonnées des deux fichiers), il y a
 conflit.
+
+////////////////////////////////GESTION DES CONFLICTS////////////////////////////////
+
+Fonction askUser PARAMs : $aDeterminer
+-> Demande aux utilisateurs une reponse (voir ou on pose la question)
+
+SANS LOG
+	On ne regarde que le contenus des fichiers et c'est tout ! 
+	
+	CONFLICT SUR DOSSIERS :
+	Nom -> conflict de type -> On demande qui a la priorité
+	Permission -> WARNING
+	Non-existance -> On demande qui a la priorité
+
+	CONFLICT SUR FICHIERS :
+	Non-existance -> On demande qui a la priorité 
+	Nom -> conflict de type
+	contenus (lié a la taille donc) -> On demande
+	taille -> WARNING
+	perm -> WARNING
+	
+AVEC LOG
+	On ne regarde que le contenus des fichiers et c'est tout !
+	
+	CONFLICT SUR DOSSIERS :
+	Nom -> conflict de type -> On regarde le log
+	Permission -> On regarde le log
+	Non-existance -> On regarde le log
+
+	CONFLICT SUR FICHIERS :
+	Non-existance -> On regarde le log
+	Nom -> On regarde le log
+	contenus (lié a la taille donc) -> On regarde le log
+	taille -> On regarde le log
+	perm -> On regarde le log
+	
+	Priorité de décision
+	
+	Prioroté des conflicts (cascade)
+	-> perm
+	-> tailles exit
+	--> contenus exit
+	---> date modif exit
+
+	Priorité des conflicts (pas cascade)
+	-> contenus
+	-> perm
+	->
+	-> 
+	
+Fonction qui ecrit le log PARAMs : $PATHreference $PATHlog
+-> Ecrit dans le log a partir de $PATHreference
+
+Gestionnaire de conflict PARAMs : $codeConflit $OptionConfig(manual/auto) $PATH_A [$PATH_B] [$PATHlog]
+-> switch($codeConfig){
+	 case 1
+		-> seulement $PATH_A +[PATHlog]
+	 case 2
+		-> $PATH_A $PATH_B +[PATHlog]
+	 case 3
+		-> $PATH_A $PATH_B +[PATHlog]
+	 case 4
+		-> $PATH_A $PATH_B +[PATHlog]
+	 case 5
+		-> $PATH_A $PATH_B +[PATHlog]
+   }
+   
+$codeConflit :
+1 non-existance => nonexistent_conflict => nonexistent_conflict_manager_[manual/auto]
+2 type => type_conflict => type_conflict_manager_[manual/auto]
+3 permission (dossier uniquement) => perm_conflict => perm_conflict_manager_[manual/auto]
+4 contenus => content_conflict => content_conflict_manager_[manual/auto]
+5 metadatas => metadata_conflict => metadata_conflict_manager_[manual/auto]
+	
+$OptionConfig :
+0 : manual 
+1 : auto
+
+bin/conflict/
+->conglict_manager
+bin/conflict/auto
+bin/conflict/manual
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
