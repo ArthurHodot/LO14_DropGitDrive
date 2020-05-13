@@ -40,3 +40,6 @@ then
 else
 	rm -r $1
 fi
+
+exit 0
+
