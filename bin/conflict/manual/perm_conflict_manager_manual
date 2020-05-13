@@ -1,0 +1,40 @@
+#!/bin/bash
+#Ask user what to do with a permission conflict between 2 directories
+
+if [ $# -ne 2 ]
+then
+	echo "Usage $0 : pathDirA pathDirB"
+	exit 1
+fi
+
+if [[ ! -d $1 ]]
+then
+	echo "$1 not found or is not a directory!"
+	exit 2
+elif [[ ! -d $2 ]]
+then
+	echo "$2 not found or is not a directory"
+	exit 2
+fi
+
+#Ask user what we have to do
+permDirA=$(stat -c %a $1)
+permDirB=$(stat -c %a $2)
+echo "A permission conflict has been detected with the folder $1 ($permDirA) and $2 ($permDirB) !"
+echo "Would you like to copy perm of $1 to $2 [1] or the opposite [2] ? [1/2]"
+read user_choice
+
+#Asking user choice until his choice is good
+until [ $user_choice != "1" -o $user_choice != "2" ]
+do
+	echo "Incorrect answer ! Would you like to copy perm of $1 to $2 [1] or the opposite [2] ? [1/2]"
+	read user_choice
+done
+
+#Executing user choice
+if [ $user_choice = "1" ]
+then
+	touch $1 -mr $2
+else
+	touch $2 -mr $1
+fi
