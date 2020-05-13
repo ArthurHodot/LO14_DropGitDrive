@@ -12,25 +12,25 @@ if [ $# -ne 2 ]
 then
         echo "Invalid number of arguments\n You need to use $0 treeA treeB log"
         exit $INVALID_NUMBER_OF_ARGUMENTS
-elif [[ ! -d $1 -o -f $2 ]]
+elif [[ ! -d $1 -o -f $1 ]]
 	exit $ELEMENT_TYPE_ERROR=2
 fi
 
-#Tchecking type for user asking
+#checking type for user asking
 if [ -d $1 ]
 then
-	type="dossier"
+	elementType="directory"
 else
-	type="fichier"
+	elementType="file"
 fi
 
 #Asking user what to do
-echo "le $type $1 n'a pas d'équivalent sur l'autre branche"
-echo "voulez vous le copier a $2 ou le supprimer ? (c/s)"
+echo "The $elementType $1 don't have any equivalent in the other branche"
+echo "Do you want to copy $1 in $2 or delete $1 ? (c/d)"
 user_choice=""
-until [ $user_choice == "c" -o $user_choice == "s" ]
+until [ $user_choice == "c" -o $user_choice == "d" ]
 do
-	echo "Erreure de saisie. Voulez vous le copier ou le supprimer ? (c/s)"
+	echo "Incorrect answer. Do you want to copy $1 in $2 or delete $1 ? (c/d)"
 	read user_choice
 done  
 #Executing user choice
@@ -40,3 +40,6 @@ then
 else
 	rm -r $1
 fi
+
+exit 0
+
