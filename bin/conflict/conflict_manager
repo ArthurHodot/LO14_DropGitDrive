@@ -1,0 +1,60 @@
+#!/bin/bash
+#Manage and redirect conflict to the correct script
+
+#Path to dependant script
+dependantScriptManual=manual
+dependantScriptAuto=auto
+
+#Declare constants value of conflict
+NON_EXISTANCE=1
+TYPE=2
+PERMISSION=3
+CONTENUS=4
+METADATA=5
+
+#Parameters : $codeConflict $optionConfig $PATH_A $PATH_B [$PATHlog]
+if [ $# -gt 5 -o $# -lt 4 ]
+then
+	echo "Usage : $0 codeConflict optionConfig(manual/auto) PATH_A PATH_B [PATHlog]"
+	exit 1
+fi
+
+if [ $1 -gt 5 -o $1 -lt 1 ]
+then
+	echo "Unknow codeconflict ! Please select a value between 1-5"
+	exit 2
+fi
+
+if [ $2 != "manual" ]
+then
+	if [ $2 != "auto" ]
+	then
+		echo "Unknow value for optionConfig ! Select 'manual' or 'auto'"
+		exit 3
+	fi
+fi
+
+codeConflict=$1
+optionConfig=$2
+path_A=$3
+path_B=$4
+
+#Log attribution if exist
+if [ $# -eq 5 ]
+then
+	pathLog=$5
+fi
+
+#Begin switch to determinate what conflict is with the codeconflict
+case $codeConflict in	
+	NON_EXISTANCE) 
+		$dependantScriptManual/non_existent_conflict_manager_manual $path_A $path_B;;
+	TYPE) 
+		$dependantScriptManual/type_conflict_manager_manual $path_A $path_B;;
+	PERMISSION)
+		$dependantScriptManual/perm_conflict_manager_manual $path_A $path_B;;
+	CONTENUS)
+		$dependantScriptManual/content_conflict_manager_manual $path_A $path_B;;
+	METADATA)	
+		$dependantScriptManual/metadata_conflict_manager_manual $path_A $path_B;;
+esac
