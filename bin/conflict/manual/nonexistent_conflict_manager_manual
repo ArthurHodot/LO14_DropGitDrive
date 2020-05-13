@@ -1,0 +1,42 @@
+#!/bin/bash
+
+#Script that take two PATH $1 and $2 and ask to the user if they want to copy the element $1 in $2 or delete $1
+#$1 need to be clear and mention the name of the file or directory at the end of the PATH
+#$2 need to be the theorical equivalent PATH in the other branch with the name of the element at the end
+
+#Exit code
+INVALID_NUMBER_OF_ARGUMENTS=1
+ELEMENT_TYPE_ERROR=2
+
+if [ $# -ne 2 ]
+then
+        echo "Invalid number of arguments\n You need to use $0 treeA treeB log"
+        exit $INVALID_NUMBER_OF_ARGUMENTS
+elif [[ ! -d $1 -o -f $2 ]]
+	exit $ELEMENT_TYPE_ERROR=2
+fi
+
+#Tchecking type for user asking
+if [ -d $1 ]
+then
+	type="dossier"
+else
+	type="fichier"
+fi
+
+#Asking user what to do
+echo "le $type $1 n'a pas d'équivalent sur l'autre branche"
+echo "voulez vous le copier a $2 ou le supprimer ? (c/s)"
+user_choice=""
+until [ $user_choice == "c" -o $user_choice == "s" ]
+do
+	echo "Erreure de saisie. Voulez vous le copier ou le supprimer ? (c/s)"
+	read user_choice
+done  
+#Executing user choice
+if [ $user_choice == "c" ]
+then
+	./element_duplicator $1 $2
+else
+	rm -r $1
+fi
