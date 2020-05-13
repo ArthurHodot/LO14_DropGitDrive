@@ -1,0 +1,7 @@
+#!/bin/bash
+
+#launcher
+
+#Manual = 0
+
+bin/main_explorer $1 $2 0

@@ -25,9 +25,9 @@ then
 	exit 2
 fi
 
-if [ $2 != "manual" ]
+if [ $2 -ne 0 ]
 then
-	if [ $2 != "auto" ]
+	if [ $2 -ne 1 ]
 	then
 		echo "Unknow value for optionConfig ! Select 'manual' or 'auto'"
 		exit 3
