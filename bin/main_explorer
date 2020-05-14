@@ -19,28 +19,28 @@ fi
 #Compare the two file that we explore
 bin/dir_comparator "$1" "$2"
 
+
 #Saving in one array all the element of the FileA
 declare -a contained_element_A
 elementsA=$(ls $1)
 iterator=0
-
 for element in $elementsA
 do
-	echo "$element"
         contained_element_A[$iterator]="$element"
 	iterator=$((iterator+=1))
 done
+contained_element_A[${#contained_element_A[@]}]=" "
 
 #Saving in one array all the element of the FileB
 declare -a contained_element_B
 elementsB=$(ls $2)
 iterator=0
-
 for element in $elementsB
 do
         contained_element_B[$iterator]="$element"
 	iterator=$((iterator+=1))
 done
+contained_element_B[${#contained_element_B[@]}]=" "
 
 #Finding equivalence between contained_element_A and contained_element_B
 declare -a contained_files
@@ -55,21 +55,22 @@ while [ $stop -eq 1 ]
 do
 	element_A=${contained_element_A[$iteratorA]}
 	element_B=${contained_element_B[$iteratorB]}
+	
 	#If A and B are not the same
+        #Nonexistence conflict
         if [ "$element_A" != "$element_B" ]
         then
-                #Noticing the user that a missmatch is found and copy the missing element in the file
-		echo "difference trouvé : A "$element_A" B "$element_B
-		if [ "$element_A" > "$element_B" ]
+		echo probleme
+	      	echo A: $1/$element_A 
+		echo B: $2/$element_B
+		#ElementA do not exist in branch B
+		if [ "$element_A" >  "$element_B" ]
 		then
-			echo on copie de A vers B
-			#$(cp "$1/$element_A" "$2/$element_A")
-			$(./element_duplicator "$1/$element_A" "$2/$element_A")			
-			 iteratorA=$((iteratorA+=1))
+			bin/conflict/conflict_manager $NON_EXISTANCE $3 "$1/$element_A" "$2/$element_A"
+			iteratorA=$((iteratorA+=1))
+		#ElementB do not exist in branch A
 		else
-			echo on copie de B vers A
-			#$(cp "$2/$element_B" "$1/$element_B")
-			$(./element_duplicator "$2/$element_B" "$1/$element_B")
+			bin/conflict/conflict_manager $NON_EXISTANCE $3 "$2/$element_B" "$1/$element_B"
 			iteratorB=$((iteratorB+=1))
 		fi	
 	#We do some tests about the type
@@ -92,7 +93,6 @@ do
 		if [ -d "$1/$element_A" -a -f "$2/$element_B" ] || [ -f "$1/$element_A" -a -d "$2/$element_B" ]
 		then
 			#Type nconflict
-			echo bouh
 			bin/conflict/conflict_manager $TYPE $3 "$1/$element_A" "$2/$element_B"
 		fi
 
@@ -111,18 +111,19 @@ done
 #Comparaison on all files
 for file in ${contained_files[@]}
 do
+	echo files :
 	echo "$1/$file"
 	echo "$2/$file"
 	bin/file_comparator "$1/$file" "$2/$file"
 done
-echo dossiers : 
 
 #Exploration of the other directorys
 for dir in ${contained_dir[@]}
 do
+	echo dossiers : 
         echo "$1/$dir"
         echo "$2/$dir"
-        bin/main_comparator "$1/$dir" "$2/$dir"
+        bin/main_explorer "$1/$dir" "$2/$dir" $3
 done
 
 exit 0

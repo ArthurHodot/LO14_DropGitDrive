@@ -47,14 +47,40 @@ fi
 
 #Begin switch to determinate what conflict is with the codeconflict
 case $codeConflict in	
-	NON_EXISTANCE) 
-		$dependantScriptManual/non_existent_conflict_manager_manual $path_A $path_B;;
-	TYPE) 
-		$dependantScriptManual/type_conflict_manager_manual $path_A $path_B;;
-	PERMISSION)
-		$dependantScriptManual/perm_conflict_manager_manual $path_A $path_B;;
-	CONTENUS)
-		$dependantScriptManual/content_conflict_manager_manual $path_A $path_B;;
-	METADATA)	
-		$dependantScriptManual/metadata_conflict_manager_manual $path_A $path_B;;
+	$NON_EXISTANCE)
+		if [ $2 -eq 0 ]
+		then	       
+			bin/conflict/manual/nonexistent_conflict_manager_manual $path_A $path_B
+		else
+			echo auto pas fait
+		fi;;
+	$TYPE) 
+		if [ $2 -eq 0 ]
+                then
+			bin/conflict/manual/type_conflict_manager_manual $path_A $path_B
+		else
+                       echo auto pas fait
+		fi;;
+	$PERMISSION)
+		if [ $2 -eq 0 ]
+                then
+			$dependantScriptManual/perm_conflict_manager_manual $path_A $path_B
+		else
+                       echo auto pas fait
+		fi;;
+	$CONTENUS)
+		if [ $2 -eq 0 ]
+                then
+			$dependantScriptManual/content_conflict_manager_manual $path_A $path_B
+		else
+                       echo auto pas fait
+		fi;;
+	$METADATA)
+		if [ $2 -eq 0 ]
+                then
+			$dependantScriptManual/metadata_conflict_manager_manual $path_A $path_B
+		else
+			echo auto pas fait
+		fi
 esac
+
