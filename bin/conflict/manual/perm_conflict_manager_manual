@@ -32,9 +32,9 @@ do
 done
 
 #Executing user choice
-if [ $user_choice = "1" ]
+if [ $user_choice -eq 1 ]
 then
-	touch $1 -mr $2
+	chmod $permDirA $2
 else
-	touch $2 -mr $1
+	chmod $permDirB $1
 fi
