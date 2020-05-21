@@ -15,7 +15,7 @@ METADATA=5
 #Parameters : $codeConflict $optionConfig $PATH_A $PATH_B [$PATHlog]
 if [ $# -gt 5 -o $# -lt 4 ]
 then
-	echo "Usage : $0 codeConflict optionConfig(manual/auto) PATH_A PATH_B [PATHlog]"
+	echo "Usage : $0 codeConflict optionConfig(manual[1]/auto[2]) PATH_A PATH_B [PATHlog]"
 	exit 1
 fi
 
