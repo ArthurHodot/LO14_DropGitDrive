@@ -28,7 +28,7 @@ echo "[1] Replace $1 by $2\n[2] Replace $2 by $1\nYour choice [1/2] :"
 
 read userChoice
 
-until [ $userChoice != "1" -o $userChoice != "2" ]
+until [ $userChoice = "1" -o $userChoice = "2" ]
 do
 	echo "Incorrect answer ! Please use 1 or 2 to select the relevant option"
 	echo "[1] Replace $1 by $2\n[2] Replace $2 by $1\nYour choice [1/2] :"
@@ -38,9 +38,7 @@ done
 #Executing the corresponding action
 if [ $userChoice -eq 1 ]
 then
-	cp $1 $2
-	touch $1 -mr $2
+	bin/element_duplicator $1 $2
 else
-	cp $2 $1
-	touch $2 -mr $1
+	bin/element_duplicator $1 $2	
 fi

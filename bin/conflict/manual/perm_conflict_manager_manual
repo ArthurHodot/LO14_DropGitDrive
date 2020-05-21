@@ -25,7 +25,7 @@ echo "Would you like to copy perm of $1 to $2 [1] or the opposite [2] ? [1/2]"
 read user_choice
 
 #Asking user choice until his choice is good
-until [ $user_choice != "1" -o $user_choice != "2" ]
+until [ $user_choice = "1" -o $user_choice = "2" ]
 do
 	echo "Incorrect answer ! Would you like to copy perm of $1 to $2 [1] or the opposite [2] ? [1/2]"
 	read user_choice
