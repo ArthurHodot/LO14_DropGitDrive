@@ -2,7 +2,7 @@
 #Ask user which file to use when 2 files are in conflict
 
 #Testing arguments
-if [ $# -ne 2 ]
+if [ $# -ne 2 ]
 then
 	echo "Usage $0 : pathA pathB"
 	exit 1
@@ -22,16 +22,16 @@ fi
 #Get the last modification date of the 2 files
 lmdFileA=$(stat -c %y $1 | cut -d '.' -f1)
 lmdFileB=$(stat -c %y $2 | cut -d '.' -f1)
-echo "Content conflict detected ! Do you want to replace $1 by $2 or the opposite ?"
-echo "Last Modification Date :\n$1 [$lmdFileA]\n$2 [$lmdFileB]"
-echo "[1] Replace $1 by $2\n[2] Replace $2 by $1\nYour choice [1/2] :"
+echo -e "Content conflict detected ! Do you want to replace $1 by $2 or the opposite ?"
+echo -e "Last Modification Date :\n $1 [$lmdFileA]\n $2 [$lmdFileB]"
+echo -e "[1] Replace $2 by $1\n [2] Replace $1 by $2\n Your choice [1/2] :"
 
 read userChoice
 
 until [ $userChoice = "1" -o $userChoice = "2" ]
 do
-	echo "Incorrect answer ! Please use 1 or 2 to select the relevant option"
-	echo "[1] Replace $1 by $2\n[2] Replace $2 by $1\nYour choice [1/2] :"
+	echo -e "Incorrect answer ! Please use 1 or 2 to select the relevant option"
+	echo -e "[1] Replace $2 by $1\n [2] Replace $1 by $2\n Your choice [1/2] :"
 	read userChoice
 done
 
@@ -40,5 +40,5 @@ if [ $userChoice -eq 1 ]
 then
 	bin/element_duplicator $1 $2
 else
-	bin/element_duplicator $1 $2	
+	bin/element_duplicator $2 $1	
 fi
