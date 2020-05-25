@@ -64,7 +64,7 @@ do
 	      	echo A: $1/$element_A 
 		echo B: $2/$element_B
 		#ElementA do not exist in branch B
-		if [ "$element_A" >  "$element_B" ]
+		if [ "$element_A"  "$element_B" ]
 		then
 			bin/conflict/conflict_manager $NON_EXISTANCE $3 "$1/$element_A" "$2/$element_A"
 			iteratorA=$((iteratorA+=1))
