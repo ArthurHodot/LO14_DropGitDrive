@@ -25,16 +25,16 @@ echo "Would you like to copy perm of $1 to $2 [1] or the opposite [2] ? [1/2]"
 read user_choice
 
 #Asking user choice until his choice is good
-until [ $user_choice != "1" -o $user_choice != "2" ]
+until [ $user_choice = "1" -o $user_choice = "2" ]
 do
 	echo "Incorrect answer ! Would you like to copy perm of $1 to $2 [1] or the opposite [2] ? [1/2]"
 	read user_choice
 done
 
 #Executing user choice
-if [ $user_choice = "1" ]
+if [ $user_choice -eq 1 ]
 then
-	touch $1 -mr $2
+	chmod $permDirA $2
 else
-	touch $2 -mr $1
+	chmod $permDirB $1
 fi
