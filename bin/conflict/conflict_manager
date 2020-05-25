@@ -2,8 +2,8 @@
 #Manage and redirect conflict to the correct script
 
 #Path to dependant script
-dependantScriptManual=manual
-dependantScriptAuto=auto
+dependantScriptManual=bin/conflict/manual
+dependantScriptAuto=bin/conflict/auto
 
 #Declare constants value of conflict
 NON_EXISTANCE=1
@@ -48,35 +48,35 @@ fi
 #Begin switch to determinate what conflict is with the codeconflict
 case $codeConflict in	
 	$NON_EXISTANCE)
-		if [ $2 -eq 0 ]
+		if [ $optionConfig -eq 0 ]
 		then	       
-			bin/conflict/manual/nonexistent_conflict_manager_manual $path_A $path_B
+			$dependantScriptManual/nonexistent_conflict_manager_manual $path_A $path_B
 		else
 			echo auto pas fait
 		fi;;
 	$TYPE) 
-		if [ $2 -eq 0 ]
+		if [ $optionConfig -eq 0 ]
                 then
-			bin/conflict/manual/type_conflict_manager_manual $path_A $path_B
+			$dependantScriptManual/type_conflict_manager_manual $path_A $path_B
 		else
                        echo auto pas fait
 		fi;;
 	$PERMISSION)
-		if [ $2 -eq 0 ]
+		if [ $optionConfig -eq 0 ]
                 then
 			$dependantScriptManual/perm_conflict_manager_manual $path_A $path_B
 		else
                        echo auto pas fait
 		fi;;
 	$CONTENUS)
-		if [ $2 -eq 0 ]
+		if [ $optionConfig -eq 0 ]
                 then
 			$dependantScriptManual/content_conflict_manager_manual $path_A $path_B
 		else
                        echo auto pas fait
 		fi;;
 	$METADATA)
-		if [ $2 -eq 0 ]
+		if [ $optionConfig -eq 0 ]
                 then
 			$dependantScriptManual/metadata_conflict_manager_manual $path_A $path_B
 		else
