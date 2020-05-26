@@ -1,0 +1,106 @@
+#!/bin/bash
+#Ask user what to do if a conflict is declared with metadatas
+
+#Testing arguments
+if [ $# -ne 3 ]
+then
+        echo "Usage $0 : pathA pathB pathLog"
+        exit 1
+fi
+
+if [[ ! -f $1 ]]
+then
+        echo "$1 not found !"
+        exit 2
+elif [[ ! -f $2 ]]
+then
+        echo "$2 not found !"
+        exit 2
+elif [[ ! -f $3 ]]
+then
+	echo "Log $3 not found !"
+	exit 2
+fi
+
+#Display error
+echo "Metadatas conflict detected ! Details of the compromised files are described below :"
+
+#Get permissions
+permFileA=$(stat -c %a $1)
+permFileB=$(stat -c %a $2)
+
+#Get last modification date
+dateFileA=$(stat -c %Y $1 | cut -d "." -f 1)
+dateFileB=$(stat -c %Y $2 | cut -d "." -f 1)
+
+#Get size
+sizeFileA=$(du -b $1 | cut -f 1)
+sizeFileB=$(du -b $2 | cut -f 1)
+
+
+#Get the line corresponding to the conflicted file
+positionStartSub=$(echo $1 |cut -d "/" -f 1 | wc -c)
+pathToGrep=$(echo ${1:$positionStartSub})
+lineLog=$(grep "$pathToGrep" $3)
+
+#Get info about the file
+sizeLog=$(echo $lineLog | cut -d " " -f 5)
+dateLog=$(echo $lineLog | cut -d " " -f 4)
+permLog=$(echo $lineLog | cut -d " " -f 3)
+
+#Debug
+echo "SizeLog = $sizeLog"
+echo "dateLog = $dateLog"
+echo "permLog = $permLog"
+
+#Checking if one file has the same metadatas as the log
+#First checking permissions
+if [ $permFileA -eq $permLog -a $permFileB -ne $permLog ]
+then
+	#permFileB receive the same permission
+	chmod $permLog $2
+elif [ $permFileB -eq $permLog -a $permFileA -ne $permLog ]
+then
+	chmod $permLog $1
+else
+	#PermA PermB and PermLog have different permission
+	#We choose the latest
+	if [ $dateFileA -ge $dateFileB ]
+	then
+		chmod $permFileA $2
+	else
+		chmod $permFileB $1
+	fi
+fi
+
+#Then checking size
+if [ $sizeFileA -eq $sizeLog -a $sizeFileB -ne $sizeLog ]
+then
+	#Echo a warning
+	echo "Warning ! $2 has a different size compare to the reference log !"
+elif [ $sizeFileB -eq $sizeLog -a $sizeFileA -ne $sizeLog ]
+then	
+	echo "Warning ! $1 has a different size compare to the reference log !"
+else
+	#Maxi-Shit if appears
+	echo "Warning++ ! The log and the others files have a different size compare to each other !"
+fi
+
+#Finally checking date
+if [ $dateFileA -eq $dateLog -a $dateFileB -ne $dateLog ]
+then
+	#Date of fileB will be change
+	touch $2 -mr $1
+elif [ $dateFileB -eq $dateLog -a $dateFileA -ne $dateLog ]
+then
+	touch $1 -mr $2
+else
+	#FileA FileB and FileLog have different modification date
+	#We choose the latest
+	if [ $dateFileA -ge $dateFileB ]
+	then
+		touch $2 -mr $1
+	else
+		touch $1 -mr $2
+	fi
+fi
