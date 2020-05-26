@@ -1,0 +1,42 @@
+#!/bin/bash
+
+#Script that implement a log file gived in $3
+#Take the directory to explore in $1 and the number of charactere that we don't want in the path for each element in the log
+
+#Exit code
+INVALID_NUMBER_OF_ARGUMENTS=1
+
+
+if [ $# -ne 3 ]
+then
+	echo -e "Invalid number of arguments\n You need to use $0 treeA treeB log"
+        exit $INVALID_NUMBER_OF_ARGUMENTS
+
+fi
+
+elements=$(ls $1)
+iterator=0
+for element in $elements
+do
+	complete_path="$1/$element"
+	#If it's a file
+	if [ -f $complete_path ]
+	then
+		path=$(echo ${complete_path:$2})
+		date=$(stat -c %Y $complete_path)
+		size=$(du -b $complete_path | cut -f1)
+		perm=$(stat -c %a $complete_path)
+		echo f $path $perm $date $size >> $3
+	#If it's a dir
+	elif [ -d $complete_path ]
+	then
+		path=$(echo ${complete_path:$2})
+		perm=$(stat -c %a $complete_path)
+		echo d $path $perm >> $3
+		./log_generator $complete_path $2 $3
+	else
+		echo "Error : $complete_path is not either a file or a directory"
+	fi
+done
+
+exit 0
