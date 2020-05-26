@@ -23,24 +23,18 @@ bin/dir_comparator "$1" "$2" $3
 #Saving in one array all the element of the FileA
 declare -a contained_element_A
 elementsA=$(ls $1)
-iterator=0
 for element in $elementsA
 do
-        contained_element_A[$iterator]="$element"
-	iterator=$((iterator+=1))
+        contained_element_A[${#contained_element_A[@]}]="$element"
 done
-contained_element_A[${#contained_element_A[@]}]=" "
 
 #Saving in one array all the element of the FileB
 declare -a contained_element_B
 elementsB=$(ls $2)
-iterator=0
 for element in $elementsB
 do
-        contained_element_B[$iterator]="$element"
-	iterator=$((iterator+=1))
+        contained_element_B[${#contained_element_B[@]}]="$element"
 done
-contained_element_B[${#contained_element_B[@]}]=" "
 
 #Finding equivalence between contained_element_A and contained_element_B
 declare -a contained_files
@@ -49,63 +43,80 @@ iteratorA=0
 iteratorB=0
 iteratorFiles=0
 IteratorDir=0
-stop=1
+flag=1
 
-while [ $stop -eq 1 ] 
+while [ $flag -ne 0 ]
 do
-	element_A=${contained_element_A[$iteratorA]}
-	element_B=${contained_element_B[$iteratorB]}
-	
-	#If A and B are not the same
-        #Nonexistence conflict
-        if [[ "$element_A" != "$element_B" ]]
-        then
-		echo probleme
-	      	echo A: $1/$element_A 
-		echo B: $2/$element_B
-		#ElementA do not exist in branch B
-		if [[ "$element_A" < "$element_B" ]]
-		then
-			bin/conflict/conflict_manager $NON_EXISTANCE $3 "$1/$element_A" "$2/$element_A"
-			iteratorA=$((iteratorA+=1))
-		#ElementB do not exist in branch A
-		else
-			bin/conflict/conflict_manager $NON_EXISTANCE $3 "$2/$element_B" "$1/$element_B"
-			iteratorB=$((iteratorB+=1))
-		fi	
-	#We do some tests about the type
-	else
-		#file and file
-		if [ -f "$1/$element_A" -a -f "$2/$element_B" ]
-		then
-			contained_files[$iteratorFiles]=$element_A
-			iteratorFiles=$((iteratorFiles+=1))
-		fi
-
-		#dir and dir
-		if [ -d "$1/$element_A" -a -d "$2/$element_B" ]
-                then
-			contained_dir[$iteratorDir]=$element_A
-			iteratorDir=$((iteratorDir+=1))
-                fi
-
-		#conflict dir/file or file/dir
-		if [ -d "$1/$element_A" -a -f "$2/$element_B" ] || [ -f "$1/$element_A" -a -d "$2/$element_B" ]
-		then
-			#Type nconflict
-			bin/conflict/conflict_manager $TYPE $3 "$1/$element_A" "$2/$element_B"
-		fi
-
-		iteratorA=$((iteratorA+=1))
-		iteratorB=$((iteratorB+=1))
-	fi
-	
-	#Exiting from the loop
-	if [ $iteratorA -ge ${#contained_element_A[@]} ] && [ $iteratorB -ge ${#contained_element_B[@]} ]
+	#If A and B are emty or at their end
+	if [ ${#contained_element_A[@]} -eq 0 -a ${#contained_element_B[@]} -eq 0 ] || [ $iteratorA -eq ${#contained_element_A[@]} -a $iteratorB -eq ${#contained_element_B[@]} ] && [ $flag -ne 0 ]  
 	then
-		stop=0
-	fi
+		flag=0
+	#If A is empty or at its end and not B, looping on B for non-existente element
+	elif [ ${#contained_element_A[@]} -eq 0 -o $iteratorA -eq ${#contained_element_A[@]} ] && [ $iteratorB -lt ${#contained_element_B[@]} ] && [ $flag -ne 0 ]
+	then
+		while [ $iteratorB -lt ${#contained_element_B[@]} ]
+		do
+			element_B=${contained_element_B[$iteratorB]}
+			bin/conflict/conflict_manager $NON_EXISTANCE $3 "$2/$element_B" "$1/$element_B"
+                        iteratorB=$((iteratorB+=1))
+		done
+		flag=0
+        #If B is empty or at its end and not B, looping on A for non-existente element
+	elif [ ${#contained_element_B[@]} -eq 0 -o $iteratorB -eq ${#contained_element_B[@]} ] && [ $iteratorB -lt ${#contained_element_B[@]} ] && [ $flag -ne 0 ]
+	then
+		flag=3
+		while [ $iteratorA -lt ${#contained_element_A[@]} ] 
+		do
+	                element_A=${contained_element_A[$iteratorA]}
+                        bin/conflict/conflict_manager $NON_EXISTANCE $3 "$1/$element_A" "$2/$element_A"
+                        iteratorA=$((iteratorA+=1))
+		done
+		flag=0
+	#Normal compare
+	else
+		element_A=${contained_element_A[$iteratorA]}
+	        element_B=${contained_element_B[$iteratorB]}
 
+        	#If A and B are not the same
+        	#Nonexistence conflict
+        	if [[ "$element_A" != "$element_B" ]]
+        	then
+                	#ElementA do not exist in branch B
+                	if [[ "$element_A" < "$element_B" ]]
+                	then
+                        	bin/conflict/conflict_manager $NON_EXISTANCE $3 "$1/$element_A" "$2/$element_A"
+                        	iteratorA=$((iteratorA+=1))
+                	#ElementB do not exist in branch A
+                	else
+                        	bin/conflict/conflict_manager $NON_EXISTANCE $3 "$2/$element_B" "$1/$element_B"
+                        	iteratorB=$((iteratorB+=1))
+                	fi
+        	#We do some tests about the type
+        	else
+                	#file and file
+                	if [ -f "$1/$element_A" -a -f "$2/$element_B" ]
+                	then
+                        	contained_files[$iteratorFiles]=$element_A
+                        	iteratorFiles=$((iteratorFiles+=1))
+                	fi
+                	#dir and dir
+                	if [ -d "$1/$element_A" -a -d "$2/$element_B" ]
+                	then
+                        	contained_dir[$iteratorDir]=$element_A
+                        	iteratorDir=$((iteratorDir+=1))
+                	fi
+                
+			#conflict dir/file or file/dir
+                	if [ -d "$1/$element_A" -a -f "$2/$element_B" ] || [ -f "$1/$element_A" -a -d "$2/$element_B" ]
+                	then
+                        	#Type nconflict
+                        	bin/conflict/conflict_manager $TYPE $3 "$1/$element_A" "$2/$element_B"
+                	fi
+
+                	iteratorA=$((iteratorA+=1))
+                	iteratorB=$((iteratorB+=1))
+        	fi
+	fi
 done
 
 #Comparaison on all files

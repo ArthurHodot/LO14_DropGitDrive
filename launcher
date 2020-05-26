@@ -3,5 +3,14 @@
 #launcher
 
 #Manual = 0
+
 #pwd
+
+echo -e "\nGIT DU PAUVRE\n"
+
 bin/main_explorer $1 $2 0
+
+path_size_to_delete=$(echo $1 | wc -m)
+echo "" > ~/Documents/log
+bin/log_generator $1 path_size_to_delete ~/Documents/log
+
