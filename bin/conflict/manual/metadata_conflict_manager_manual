@@ -1,6 +1,8 @@
 #!/bin/bash
 #Ask user what to do if a conflict is declared with metadatas
 
+root_path=""
+
 #Testing arguments
 if [ $# -ne 2 ]
 then
@@ -54,7 +56,7 @@ done
 if [ $userChoice = "1" ]
 then
 	#Using copy-paste of file to conserve the metadatas
-	bin/element_duplicator $1 $2
+	$root_path/bin/element_duplicator $1 $2
 else
-	bin/element_duplicator $1 $2
+	$root_path/bin/element_duplicator $1 $2
 fi

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+root_path=""
+
 #Script that take two PATH $1 and $2 and copy the element $1 in $2
 #$1 and $2 need to be clear and mention the name of the file or directory at the end of the PATH
 
@@ -28,7 +30,7 @@ then
 	elements=$(ls "$1")
 	for element in $elements
 	do
-		bin/element_duplicator "$1/$element" "$2/$element"
+		$root_path/bin/element_duplicator "$1/$element" "$2/$element"
 	done
 fi
 

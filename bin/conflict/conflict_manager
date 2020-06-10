@@ -2,8 +2,9 @@
 #Manage and redirect conflict to the correct script
 
 #Path to dependant script
-dependantScriptManual=bin/conflict/manual
-dependantScriptAuto=bin/conflict/auto
+root_path=""
+dependantScriptManual=$root_path/bin/conflict/manual
+dependantScriptAuto=$root_path/bin/conflict/auto
 
 #Declare constants value of conflict
 NON_EXISTANCE=1
@@ -13,9 +14,9 @@ CONTENUS=4
 METADATA=5
 
 #Parameters : $codeConflict $optionConfig $PATH_A $PATH_B [$PATHlog]
-if [ $# -gt 5 -o $# -lt 4 ]
+if [ $# -ne 3 ]
 then
-	echo "Usage : $0 codeConflict optionConfig(manual[1]/auto[2]) PATH_A PATH_B [PATHlog]"
+	echo "Usage : $0 codeConflict PATH_A PATH_B"
 	exit 1
 fi
 
@@ -25,25 +26,14 @@ then
 	exit 2
 fi
 
-if [ $2 -ne 0 ]
-then
-	if [ $2 -ne 1 ]
-	then
-		echo "Unknow value for optionConfig ! Select 'manual' or 'auto'"
-		exit 3
-	fi
-fi
-
 codeConflict=$1
-optionConfig=$2
-path_A=$3
-path_B=$4
+path_A=$2
+path_B=$3
 
 #Log attribution if exist
-if [ $# -eq 5 ]
-then
-	pathLog=$5
-fi
+# A REVOOOOOOOOOOOIR
+pathLog=$((head -n1 /tmp/synchronizer_current_log))
+
 
 #Begin switch to determinate what conflict is with the codeconflict
 case $codeConflict in	

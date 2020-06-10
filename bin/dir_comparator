@@ -1,5 +1,7 @@
 #!/bin/bash
 
+root_path=""
+
 #Compare 2 directories with all metadata (permission)
 
 #Check args validity
@@ -27,7 +29,7 @@ permDir2=$(stat -c %a $2)
 if [ $permDir1 -ne $permDir2 ]
 then
 	echo "Dir Permission conflict ! "
-	bin/conflict/conflict_manager 3 $3 $1 $2
+	$root_path/bin/conflict/conflict_manager 3 $1 $2
 fi
 
 exit 0

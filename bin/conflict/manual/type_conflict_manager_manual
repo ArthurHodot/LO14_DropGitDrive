@@ -5,6 +5,8 @@
 #$1 need to be clear and mention the name of the file or directory at the end of the PATH
 #$2 need to be the theorical equivalent PATH in the other branch with the name of the element at the end
 
+root_path=""
+
 #Exit code
 INVALID_NUMBER_OF_ARGUMENTS=1
 ELEMENT_TYPE_ERROR=2
@@ -47,10 +49,10 @@ done
 if [ $user_choice == "first" ]
 then
         rm -r $2
-	bin/element_duplicator $1 $2
+	$root_path/bin/element_duplicator $1 $2
 else
         rm -r $1
-	bin/element_duplicator $2 $1
+	$root_path/bin/element_duplicator $2 $1
 fi
 
 exit 0

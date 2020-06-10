@@ -1,5 +1,7 @@
 #!/bin/bash
 
+root_path=""
+
 #Script that implement a log file gived in $3
 #Take the directory to explore in $1 and the number of charactere that we don't want in the path for each element in the log
 
@@ -12,6 +14,9 @@ then
         exit $INVALID_NUMBER_OF_ARGUMENTS
 
 fi
+
+#standard log
+echo "synchronizer_log" >> $3
 
 elements=$(ls $1)
 iterator=0
@@ -32,7 +37,7 @@ do
 		path=$(echo ${complete_path:$2})
 		perm=$(stat -c %a $complete_path)
 		echo d $path $perm >> $3
-		./log_generator $complete_path $2 $3
+		$root_path/bin/log_generator $complete_path $2 $3
 	else
 		echo "Error : $complete_path is not either a file or a directory"
 	fi

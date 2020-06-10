@@ -6,7 +6,7 @@
 #$2 need to be the theorical equivalent PATH in the other branch with the name of the element at the end
 
 #Path to the executable directory of the script
-pathToBin=bin
+root_path=""
 
 #Exit code
 INVALID_NUMBER_OF_ARGUMENTS=1
@@ -43,7 +43,7 @@ done
 #Executing user choice
 if [ $user_choice == "copy" ]
 then
-	bin/element_duplicator $1 $2
+	$root_path/bin/element_duplicator $1 $2
 else
 	rm -r $1
 fi
