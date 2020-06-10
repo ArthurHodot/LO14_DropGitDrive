@@ -1,3 +1,4 @@
-f tata/titi 755 4334365436 50
-f toto/tata 700 4354335421 8
-f tato/tito 742 1545323845 30
+d dir2 775
+d tata 775
+f tata/titi 666 1590498898 0 
+f file1 664 1590402665 11

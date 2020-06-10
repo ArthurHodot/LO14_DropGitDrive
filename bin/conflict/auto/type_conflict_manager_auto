@@ -8,49 +8,69 @@
 #Exit code
 INVALID_NUMBER_OF_ARGUMENTS=1
 ELEMENT_TYPE_ERROR=2
+PATH_TO_ELEMENT_DUPLICATOR=bin
 
-if [ $# -ne 2 ]
+if [ $# -ne 3 ]
 then
-        echo "Invalid number of arguments\n You need to use $0 treeA treeB log"
+        echo -e "Invalid number of arguments\n You need to use $0 treeA treeB log"
         exit $INVALID_NUMBER_OF_ARGUMENTS
-#elif [[ ! -d $1 -o -f $1 -o -f $2 -o -d $2 ]]
-#        exit $ELEMENT_TYPE_ERROR=2
 fi
 
 
 if [ -d $1 ]
 then
-        elementType1="dossier"
+        elementType1="d"
+	elementType2="f"
 else
-        elementType1="fichier"
-fi
-if [ -d $2 ]
-then
-        elementType2="dossier"
-else
-        elementType2="fichier"
+        elementType1="f"
+	elementType2="d"
 fi
 
-
-#Asking user what to do
-echo "$1 ($elementType1) and $2 ($elementType2) dont have the same type"
-echo "Which one do you want to keep ? (the other one will be removed) (first/second)"
-read user_choice
-#user_choice=""
-until [ $user_choice == "first" -o $user_choice == "second" ]
-do
-        echo "Incorrect answer. Which one do you want to keep ? (the other one will be removed) (first/second) "
-        read user_choice
-done
-
-#Executing user choice
-if [ $user_choice == "first" ]
+#Get the line corresponding to the conflicted file/dir
+#First testing if the element is at the root of the tree
+positionStartSub=$(echo $1 |cut -d "/" -f 1 | wc -m)
+pathToGrep=$(echo ${1:$positionStartSub})
+if [[ ! $1 =~ "/+" ]]
 then
-        rm -r $2
-	bin/element_duplicator $1 $2
+	lineLog=$(grep "$pathToGrep" $3 -m 1)
 else
-        rm -r $1
-	bin/element_duplicator $2 $1
+	lineLog=$(grep "$pathToGrep" $3)
+fi
+
+echo "LineLog = $lineLog"
+
+#Get the information
+typeLog=$(echo $lineLog |cut -d " " -f 1)
+
+if [[ "$elementType1" == "$typeLog" ]] && [[ "$elementType2" != "$typeLog" ]]
+then
+	rm -r $2
+	$PATH_TO_ELEMENT_DUPLICATOR/element_duplicator $1 $2
+elif [[ "$elementType2" == "$typeLog" ]] && [[ "$elementType1" != "$typeLog" ]]
+then
+	rm -r $1
+	$PATH_TO_ELEMENT_DUPLICATOR/element_duplicator $2 $1
+else
+	#Asking user what to do
+	echo "$1 ($elementType1) and $2 ($elementType2) dont have the same type"
+	echo "Which one do you want to keep ? (the other one will be removed) (first/second)"
+	read user_choice
+
+	until [ $user_choice == "first" -o $user_choice == "second" ]
+	do
+        	echo "Incorrect answer. Which one do you want to keep ? (the other one will be removed) (first/second) "
+        	read user_choice
+	done
+
+	#Executing user choice
+	if [ $user_choice == "first" ]
+	then
+        	rm -r $2
+		$PATH_TO_ELEMENT_DUPLICATOR/element_duplicator $1 $2
+	else
+        	rm -r $1
+		$PATH_TO_ELEMENT_DUPLICATOR/element_duplicator $2 $1
+	fi
 fi
 
 exit 0

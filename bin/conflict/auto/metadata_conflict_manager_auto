@@ -39,7 +39,7 @@ sizeFileB=$(du -b $2 | cut -f 1)
 
 
 #Get the line corresponding to the conflicted file
-positionStartSub=$(echo $1 |cut -d "/" -f 1 | wc -c)
+positionStartSub=$(echo $1 |cut -d "/" -f 1 | wc -m)
 pathToGrep=$(echo ${1:$positionStartSub})
 lineLog=$(grep "$pathToGrep" $3)
 
