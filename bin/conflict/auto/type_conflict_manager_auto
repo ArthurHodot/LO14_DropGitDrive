@@ -8,7 +8,7 @@
 #Exit code
 INVALID_NUMBER_OF_ARGUMENTS=1
 ELEMENT_TYPE_ERROR=2
-PATH_TO_ELEMENT_DUPLICATOR=bin
+root_path=""
 
 if [ $# -ne 3 ]
 then
@@ -43,11 +43,11 @@ typeLog=$(echo $lineLog |cut -d " " -f 1)
 if [[ "$elementType1" == "$typeLog" ]] && [[ "$elementType2" != "$typeLog" ]]
 then
 	rm -r $2
-	$PATH_TO_ELEMENT_DUPLICATOR/element_duplicator $1 $2
+	${root_path}bin/element_duplicator $1 $2
 elif [[ "$elementType2" == "$typeLog" ]] && [[ "$elementType1" != "$typeLog" ]]
 then
 	rm -r $1
-	$PATH_TO_ELEMENT_DUPLICATOR/element_duplicator $2 $1
+	${root_path}bin/element_duplicator $2 $1
 else
 	#Asking user what to do
 	echo "$1 ($elementType1) and $2 ($elementType2) dont have the same type"
@@ -64,10 +64,10 @@ else
 	if [ $user_choice == "first" ]
 	then
         	rm -r $2
-		$PATH_TO_ELEMENT_DUPLICATOR/element_duplicator $1 $2
+		${root_path}bin/element_duplicator $1 $2
 	else
         	rm -r $1
-		$PATH_TO_ELEMENT_DUPLICATOR/element_duplicator $2 $1
+		${root_path}bin/element_duplicator $2 $1
 	fi
 fi
 
