@@ -37,8 +37,6 @@ else
 	lineLog=$(grep "$pathToGrep" $3)
 fi
 
-echo "LineLog = $lineLog"
-
 #Get the information
 typeLog=$(echo $lineLog |cut -d " " -f 1)
 

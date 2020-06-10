@@ -10,43 +10,79 @@ pathToBin=bin
 
 #Exit code
 INVALID_NUMBER_OF_ARGUMENTS=1
-ELEMENT_TYPE_ERROR=2
+UNKNOW_ELEMENT=2
 
 
 
-if [ $# -ne 2 ]
+if [ $# -ne 3 ]
 then
-        echo "Invalid number of arguments\n You need to use $0 treeA treeB log"
+        echo -e "Invalid number of arguments\nYou need to use $0 pathFileExist pathFileMissing log"
         exit $INVALID_NUMBER_OF_ARGUMENTS
-#elif [[ ! -d $1 -o -f $1 ]]
-#	exit $ELEMENT_TYPE_ERROR=2
+fi
+
+if [[ ! -d $1 ]] && [[ ! -f $1 ]]
+then
+	echo "This element doesn't longer exist !"
+	exit $UNKNOW_ELEMENT
 fi
 
 #checking type for user asking
 if [ -d $1 ]
 then
-	elementType="directory"
+	elementType="d"
 else
-	elementType="file"
+	elementType="f"
 fi
 
-#Asking user what to do
-echo "The $elementType $1 don't have any equivalent in the other branche"
-echo "Do you want to copy $1 in $2 or delete $1 ? (copy/delete)"
-read user_choice
-until [ $user_choice == "copy" -o $user_choice == "delete" ]
-do
-	echo "Incorrect answer. Do you want to copy $1 in $2 or delete $1 ? (copy/delete)"
-	read user_choice
-done 
+#Grabbing corresponding line in the log file
 
-#Executing user choice
-if [ $user_choice == "copy" ]
+#First testing if the element is at the root of the tree
+positionStartSub=$(echo $1 |cut -d "/" -f 1 | wc -m)
+pathToGrep=$(echo ${1:$positionStartSub})
+if [[ ! $1 =~ "/+" ]]
 then
-	bin/element_duplicator $1 $2
+        lineLog=$(grep "$pathToGrep" $3 -m 1)
 else
-	rm -r $1
+        lineLog=$(grep "$pathToGrep" $3)
 fi
 
+#Grabbing type of the file in the log
+typeLog=$(echo $lineLog | cut -d " " -f 1)
+
+if [ -z $typeLog ]
+then
+	#The element isn't in the log
+	#Asking user what to do
+	echo "The $elementType $1 don't have any equivalent in the other branche"
+	echo "Do you want to copy $1 in $2 or delete $1 ? (copy/delete)"
+	read user_choice
+	until [ $user_choice == "copy" -o $user_choice == "delete" ]
+	do
+		echo "Incorrect answer. Do you want to copy $1 in $2 or delete $1 ? (copy/delete)"
+		read user_choice
+	done 
+
+	#Executing user choice
+	if [ $user_choice == "copy" ]
+	then
+		bin/element_duplicator $1 $2
+	else
+		rm -r $1
+	fi
+
+elif [ $typeLog == $elementType ]
+then
+	#The element is in the log and they have the same type
+	#So we just delete it (intententionnal remove from user)
+	rm -r $1
+else
+	#The element is in the log but don't have the expected type
+	#So we just copy the file to the other tree
+
+	#Get the name of the file to copy to
+	nameFile=$(basename $1)
+	echo "pathExtract : $2/$nameFile"
+	$pathToBin/element_duplicator $1 "$2/$nameFile"
+fi
 exit 0
 
