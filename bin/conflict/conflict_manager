@@ -3,8 +3,8 @@
 
 #Path to dependant script
 root_path=""
-dependantScriptManual=$root_path/bin/conflict/manual
-dependantScriptAuto=$root_path/bin/conflict/auto
+dependantScriptManual=${root_path}bin/conflict/manual
+dependantScriptAuto=${root_path}bin/conflict/auto
 
 #Declare constants value of conflict
 NON_EXISTANCE=1

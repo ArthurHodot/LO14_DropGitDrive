@@ -19,7 +19,7 @@ then
 fi
 
 #Compare the two file that we explore
-$root_path/bin/dir_comparator "$1" "$2" $3
+${root_path}/bin/dir_comparator "$1" "$2" $3
 
 #Saving in one array all the element of the FileA
 declare -a contained_element_A
@@ -58,7 +58,7 @@ do
 		while [ $iteratorB -lt ${#contained_element_B[@]} ]
 		do
 			element_B=${contained_element_B[$iteratorB]}
-			$root_path/bin/conflict/conflict_manager $NON_EXISTANCE $3 "$2/$element_B" "$1/$element_B"
+			${root_path}bin/conflict/conflict_manager $NON_EXISTANCE $3 "$2/$element_B" "$1/$element_B"
                         iteratorB=$((iteratorB+=1))
 		done
 		flag=0
@@ -69,7 +69,7 @@ do
 		while [ $iteratorA -lt ${#contained_element_A[@]} ] 
 		do
 	                element_A=${contained_element_A[$iteratorA]}
-                        $root_path/bin/conflict/conflict_manager $NON_EXISTANCE $3 "$1/$element_A" "$2/$element_A"
+                        ${root_path}bin/conflict/conflict_manager $NON_EXISTANCE $3 "$1/$element_A" "$2/$element_A"
                         iteratorA=$((iteratorA+=1))
 		done
 		flag=0
@@ -85,11 +85,11 @@ do
                 	#ElementA do not exist in branch B
                 	if [[ "$element_A" < "$element_B" ]]
                 	then
-                        	$root_path/bin/conflict/conflict_manager $NON_EXISTANCE $3 "$1/$element_A" "$2/$element_A"
+                        	${root_path}bin/conflict/conflict_manager $NON_EXISTANCE $3 "$1/$element_A" "$2/$element_A"
                         	iteratorA=$((iteratorA+=1))
                 	#ElementB do not exist in branch A
                 	else
-                        	$root_path/bin/conflict/conflict_manager $NON_EXISTANCE $3 "$2/$element_B" "$1/$element_B"
+                        	${root_path}bin/conflict/conflict_manager $NON_EXISTANCE $3 "$2/$element_B" "$1/$element_B"
                         	iteratorB=$((iteratorB+=1))
                 	fi
         	#We do some tests about the type
@@ -111,7 +111,7 @@ do
                 	if [ -d "$1/$element_A" -a -f "$2/$element_B" ] || [ -f "$1/$element_A" -a -d "$2/$element_B" ]
                 	then
                         	#Type nconflict
-                        	$root_path/bin/conflict/conflict_manager $TYPE $3 "$1/$element_A" "$2/$element_B"
+                        	${root_path}bin/conflict/conflict_manager $TYPE $3 "$1/$element_A" "$2/$element_B"
                 	fi
 
                 	iteratorA=$((iteratorA+=1))
@@ -126,7 +126,7 @@ do
 	echo files :
 	echo "$1/$file"
 	echo "$2/$file"
-	$root_path/bin/file_comparator "$1/$file" "$2/$file" 0
+	${root_path}bin/file_comparator "$1/$file" "$2/$file" 0
 done
 
 #Exploration of the other directorys
@@ -135,7 +135,7 @@ do
 	echo dossiers : 
         echo "$1/$dir"
         echo "$2/$dir"
-        $root_path/bin/main_explorer "$1/$dir" "$2/$dir" $3
+        ${root_path}bin/main_explorer "$1/$dir" "$2/$dir" $3
 done
 
 exit 0

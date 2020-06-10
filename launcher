@@ -26,30 +26,37 @@ then
 	echo -e "$1 is not a directory"
 	exit $INVALID_ARGUMENTS
 fi
-#2 control
+#$2 control
 if [[ ! -d $2 ]]
 then
 	echo -e "$2 is not a directory"
         exit $INVALID_ARGUMENTS
 fi
-#$3 control
-if [ $# -eq 3 ] && [ -f $3 ]
+
+if [[ "$3" == "-m" ]]
 then
-	head=$(head -n1 $3)
-	if [[ "$head" =! "synchronizer_log" ]]
+	touch $4
+	if [[ ! -f $4 ]]
 	then
-		echo "$3 is not a log file for this synchronizer"
+		echo "$4 is not a file, you can't use it for saving a log"
+		exit $INVALID_ARGUMENTS
+	fi
+elif [[ "$3" == "-a" ]]
+then
+	if [ -f $4 ]
+	then
+		head=$(head -n1 $4)
+		if [[ "$head" != "synchronizer_log" ]]
+			then
+			echo "$4 is not a log file for this synchronizer"
+			exit $INVALID_ARGUMENTS
+		fi
+	else
+		"$4 is not a log file for this synchronizer"
 		exit $INVALID_ARGUMENTS
 	fi
 else
-	echo "$3 is not a log file for this synchronizer"
-        exit $INVALID_ARGUMENTS
-fi
-
-#$4 control
-if [[ "$4" == "-a" -o "$4" == "-m" ]]
-then
-        echo -e "$4 is not an option for this synchronizer \ntry -a or -m "
+	echo -e "$3 is not an option for this synchronizer \ntry -a or -m "
         exit $INVALID_ARGUMENTS
 fi
 
@@ -60,9 +67,9 @@ then
 	echo $3 > /tmp/synchronizer_current_log
 fi
 
-$root_path/main_explorer $1 $2
+${root_path}bin/main_explorer $1 $2
 
 path_size_to_delete=$(echo $1 | wc -m) #AJOUTER +1
 path_size_to_delete=$((path_size_to_delete+=1))
-$root_path/bin/log_generator $1 path_size_to_delete $3 
+${root_path}bin/log_generator $1 path_size_to_delete $3 
 

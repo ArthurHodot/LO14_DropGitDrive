@@ -40,7 +40,7 @@ done
 #Executing the corresponding action
 if [ $userChoice -eq 1 ]
 then
-	$root_path/bin/element_duplicator $1 $2
+	${root_path}bin/element_duplicator $1 $2
 else
-	$root_path/bin/element_duplicator $2 $1	
+	${root_path}bin/element_duplicator $2 $1	
 fi

@@ -30,7 +30,7 @@ then
 	elements=$(ls "$1")
 	for element in $elements
 	do
-		$root_path/bin/element_duplicator "$1/$element" "$2/$element"
+		${root_path}bin/element_duplicator "$1/$element" "$2/$element"
 	done
 fi
 

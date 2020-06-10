@@ -37,7 +37,7 @@ do
 		path=$(echo ${complete_path:$2})
 		perm=$(stat -c %a $complete_path)
 		echo d $path $perm >> $3
-		$root_path/bin/log_generator $complete_path $2 $3
+		${root_path}bin/log_generator $complete_path $2 $3
 	else
 		echo "Error : $complete_path is not either a file or a directory"
 	fi

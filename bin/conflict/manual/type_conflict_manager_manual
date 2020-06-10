@@ -49,10 +49,10 @@ done
 if [ $user_choice == "first" ]
 then
         rm -r $2
-	$root_path/bin/element_duplicator $1 $2
+	${root_path}bin/element_duplicator $1 $2
 else
         rm -r $1
-	$root_path/bin/element_duplicator $2 $1
+	${root_path}bin/element_duplicator $2 $1
 fi
 
 exit 0

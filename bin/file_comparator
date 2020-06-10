@@ -23,7 +23,7 @@ fi
 diff $1 $2 >> /dev/null
 if [ $? -ne 0 ]
 then
-	$root_path/bin/conflict/conflict_manager 4 $1 $2
+	${root_path}bin/conflict/conflict_manager 4 $1 $2
 exit 0
 fi
 
@@ -32,7 +32,7 @@ sizeFile1=$(du -b $1 | cut -f1 )
 sizeFile2=$(du -b $2 | cut -f1 )
 if [ $sizeFile1 -ne $sizeFile2 ]
 then
-	$root_path/bin/conflict/conflict_manager 5 $1 $2
+	${root_path}bin/conflict/conflict_manager 5 $1 $2
 fi
 
 #Compare last modification date
@@ -40,7 +40,7 @@ dateFile1=$(stat -c %Y $1) #Print this date in seconds since Epoch
 dateFile2=$(stat -c %Y $2)
 if [ $dateFile1 -ne $dateFile2 ]
 then
-	$root_path/bin/conflict/conflict_manager 5 $1 $2
+	${root_path}bin/conflict/conflict_manager 5 $1 $2
 fi
 
 #Compare permission
@@ -48,5 +48,5 @@ permFile1=$(stat -c %a $1)
 permFile2=$(stat -c %a $2)
 if [ $permFile1 -ne $permFile2 ]
 then
-	$root_path/bin/conflict/conflict_manager 5 $1 $2
+	${root_path}bin/conflict/conflict_manager 5 $1 $2
 fi

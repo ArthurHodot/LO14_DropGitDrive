@@ -43,7 +43,7 @@ done
 #Executing user choice
 if [ $user_choice == "copy" ]
 then
-	$root_path/bin/element_duplicator $1 $2
+	${root_path}bin/element_duplicator $1 $2
 else
 	rm -r $1
 fi
