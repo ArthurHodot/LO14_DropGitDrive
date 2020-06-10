@@ -30,47 +30,49 @@ codeConflict=$1
 path_A=$2
 path_B=$3
 
-#Log attribution if exist
-# A REVOOOOOOOOOOOIR
-pathLog=$((head -n1 /tmp/synchronizer_current_log))
-
+if [ -s /tmp/synchronizer_current_log ]
+then
+	pathLog=$((head -n1 /tmp/synchronizer_current_log))
+else
+	pathLog=""
+fi
 
 #Begin switch to determinate what conflict is with the codeconflict
 case $codeConflict in	
 	$NON_EXISTANCE)
-		if [ $optionConfig -eq 0 ]
+		if [[ "$pathLog" == "" ]]
 		then	       
 			$dependantScriptManual/nonexistent_conflict_manager_manual $path_A $path_B
 		else
-			echo auto pas fait
+			$dependantScriptAuto/nonexistent_conflict_manager_manual $path_A $path_B $pathLog
 		fi;;
 	$TYPE) 
-		if [ $optionConfig -eq 0 ]
+		if [[ "$pathLog" == "" ]]
                 then
 			$dependantScriptManual/type_conflict_manager_manual $path_A $path_B
 		else
-                       echo auto pas fait
+			$dependantScriptAuto/type_conflict_manager_manual $path_A $path_B $pathLog
 		fi;;
 	$PERMISSION)
-		if [ $optionConfig -eq 0 ]
+		if [[ "$pathLog" == "" ]]
                 then
 			$dependantScriptManual/perm_conflict_manager_manual $path_A $path_B
 		else
-                       echo auto pas fait
+			$dependantScriptAuto/perm_conflict_manager_manual $path_A $path_B $pathLog
 		fi;;
 	$CONTENUS)
-		if [ $optionConfig -eq 0 ]
+		if [[ "$pathLog" == "" ]]
                 then
 			$dependantScriptManual/content_conflict_manager_manual $path_A $path_B
 		else
-                       echo auto pas fait
+			$dependantScriptAuto/content_conflict_manager_manual $path_A $path_B $pathLog
 		fi;;
 	$METADATA)
-		if [ $optionConfig -eq 0 ]
+		if [[ "$pathLog" == "" ]]
                 then
 			$dependantScriptManual/metadata_conflict_manager_manual $path_A $path_B
 		else
-			echo auto pas fait
+			$dependantScriptAuto/metadata_conflict_manager_manual $path_A $path_B $pathLog
 		fi
 esac
 
