@@ -32,7 +32,7 @@ path_B=$3
 
 if [ -s /tmp/synchronizer_current_log ]
 then
-	pathLog=$((head -n1 /tmp/synchronizer_current_log))
+	pathLog=$(head -n1 /tmp/synchronizer_current_log)
 else
 	pathLog=""
 fi
@@ -44,35 +44,35 @@ case $codeConflict in
 		then	       
 			$dependantScriptManual/nonexistent_conflict_manager_manual $path_A $path_B
 		else
-			$dependantScriptAuto/nonexistent_conflict_manager_manual $path_A $path_B $pathLog
+			$dependantScriptAuto/nonexistent_conflict_manager_auto $path_A $path_B $pathLog
 		fi;;
 	$TYPE) 
 		if [[ "$pathLog" == "" ]]
                 then
 			$dependantScriptManual/type_conflict_manager_manual $path_A $path_B
 		else
-			$dependantScriptAuto/type_conflict_manager_manual $path_A $path_B $pathLog
+			$dependantScriptAuto/type_conflict_manager_auto $path_A $path_B $pathLog
 		fi;;
 	$PERMISSION)
 		if [[ "$pathLog" == "" ]]
                 then
 			$dependantScriptManual/perm_conflict_manager_manual $path_A $path_B
 		else
-			$dependantScriptAuto/perm_conflict_manager_manual $path_A $path_B $pathLog
+			$dependantScriptAuto/perm_conflict_manager_auto $path_A $path_B $pathLog
 		fi;;
 	$CONTENUS)
 		if [[ "$pathLog" == "" ]]
                 then
 			$dependantScriptManual/content_conflict_manager_manual $path_A $path_B
 		else
-			$dependantScriptAuto/content_conflict_manager_manual $path_A $path_B $pathLog
+			$dependantScriptAuto/content_conflict_manager_auto $path_A $path_B $pathLog
 		fi;;
 	$METADATA)
 		if [[ "$pathLog" == "" ]]
                 then
 			$dependantScriptManual/metadata_conflict_manager_manual $path_A $path_B
 		else
-			$dependantScriptAuto/metadata_conflict_manager_manual $path_A $path_B $pathLog
+			$dependantScriptAuto/metadata_conflict_manager_auto $path_A $path_B $pathLog
 		fi
 esac
 

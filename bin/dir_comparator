@@ -5,9 +5,9 @@ root_path=""
 #Compare 2 directories with all metadata (permission)
 
 #Check args validity
-if [ $# -ne 3 ]
+if [ $# -ne 2 ]
 then
-	echo "Usage $0 : pathDir1 pathDir2 optionConfig(manual[1]/auto[2])"
+	echo "Usage $0 : pathDir1 pathDir2"
 	exit 1
 elif [[ ! -d $1 ]]
 then
@@ -17,10 +17,6 @@ elif [[ ! -d $2 ]]
 then
 	echo "Directory not found : $2"
 	exit 2
-elif [ $3 -ne 1 -a $3 -ne 0 ]
-then
-	echo "Unknow optionConfig ! Use 0 for a manual management of conflicts or 1 for an automatic one"
-	exit 3
 fi
 
 #Compare permission

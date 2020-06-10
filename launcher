@@ -62,14 +62,16 @@ fi
 
 #current_log initiation
 touch /tmp/synchronizer_current_log
-if [[ "$4" == "-a" ]]
+if [[ "$3" == "-a" ]]
 then
-	echo $3 > /tmp/synchronizer_current_log
+	echo $4 > /tmp/synchronizer_current_log
 fi
 
 ${root_path}bin/main_explorer $1 $2
 
 path_size_to_delete=$(echo $1 | wc -m) #AJOUTER +1
 path_size_to_delete=$((path_size_to_delete+=1))
-${root_path}bin/log_generator $1 path_size_to_delete $3 
+
+echo "synchronizer_log" > $4
+${root_path}bin/log_generator $1 path_size_to_delete $4 
 

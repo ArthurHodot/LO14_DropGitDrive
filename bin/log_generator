@@ -10,13 +10,10 @@ INVALID_NUMBER_OF_ARGUMENTS=1
 
 if [ $# -ne 3 ]
 then
-	echo -e "Invalid number of arguments\n You need to use $0 treeA treeB log"
+	echo -e "Invalid number of arguments\nYou need to use $0 treeA treeB log"
         exit $INVALID_NUMBER_OF_ARGUMENTS
 
 fi
-
-#standard log
-echo "synchronizer_log" >> $3
 
 elements=$(ls $1)
 iterator=0

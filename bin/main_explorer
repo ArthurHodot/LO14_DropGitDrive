@@ -19,7 +19,7 @@ then
 fi
 
 #Compare the two file that we explore
-${root_path}/bin/dir_comparator "$1" "$2" $3
+${root_path}bin/dir_comparator "$1" "$2" $3
 
 #Saving in one array all the element of the FileA
 declare -a contained_element_A
@@ -62,8 +62,8 @@ do
                         iteratorB=$((iteratorB+=1))
 		done
 		flag=0
-        #If B is empty or at its end and not B, looping on A for non-existente element
-	elif [ ${#contained_element_B[@]} -eq 0 -o $iteratorB -eq ${#contained_element_B[@]} ] && [ $iteratorB -lt ${#contained_element_B[@]} ] && [ $flag -ne 0 ]
+        #If B is empty or at its end and not A , looping on A for non-existente element
+	elif [ ${#contained_element_B[@]} -eq 0 -o $iteratorB -eq ${#contained_element_B[@]} ] && [ $iteratorA -lt ${#contained_element_A[@]} ] && [ $flag -ne 0 ]
 	then
 		flag=3
 		while [ $iteratorA -lt ${#contained_element_A[@]} ] 
