@@ -36,21 +36,19 @@ sizeFileA=$(du -b $1 | cut -f 1)
 sizeFileB=$(du -b $2 | cut -f 1)
 
 #Asking user
+echo "Metadata conflict detected"
 echo -e "File $1 : \nPermission : $permFileA\nLast Modification : $dateFileA\nSize : $sizeFileA bytes"
 echo -e "File $2 : \nPermission : $permFileB\nLast Modification : $dateFileB\nSize : $sizeFileB bytes"
-echo -e "Which metadata do we have to save ?\nMetadatas of $1 [1]\nMetadatas of $2 [2]"
-echo -e "Your choice [1/2] : "
+echo -e "Do you want to keep metadatas of $1 (firts) or $2 (second) ? [f/s]"
 
 read userChoice
 
-until [ $userChoice = "1" -o $userChoice = "2" ]
+until [ $userChoice = "f" -o $userChoice = "s" ]
 do
-	echo "Incorrect answer ! Please use 1 or 2 to select the relevant option"
-	echo -e "Which metadata do we have to save ?\nMetadatas of $1 [1]\nMetadatas of $2 [2]"
-	echo "Your choice [1/2] : "
+	echo -e "Incorrect answer\nDo you want to keep the metadatas of $1 (firts) or $2 (second) ? [f/s]"
 	read userChoice
 done
-
+echo -e "\n"
 
 #Executing selected option
 if [ $userChoice = "1" ]

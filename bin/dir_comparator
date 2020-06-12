@@ -24,7 +24,6 @@ permDir1=$(stat -c %a $1)
 permDir2=$(stat -c %a $2)
 if [ $permDir1 -ne $permDir2 ]
 then
-	echo "Dir Permission conflict ! "
 	${root_path}bin/conflict/conflict_manager 3 $1 $2
 fi
 

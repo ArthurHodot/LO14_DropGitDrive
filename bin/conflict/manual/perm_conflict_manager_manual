@@ -20,16 +20,17 @@ fi
 #Ask user what we have to do
 permDirA=$(stat -c %a $1)
 permDirB=$(stat -c %a $2)
-echo "A permission conflict has been detected with the folder $1 ($permDirA) and $2 ($permDirB) !"
-echo "Would you like to copy perm of $1 to $2 [1] or the opposite [2] ? [1/2]"
+echo -e "Permission conflict detected\n$1 ($permDirA)\n$2 ($permDirB)"
+echo "Do you want to keep permision from $1 (firts) or $2 (second) ? [f/s]"
 read user_choice
 
 #Asking user choice until his choice is good
-until [ $user_choice = "1" -o $user_choice = "2" ]
+until [ $user_choice = "f" -o $user_choice = "s" ]
 do
-	echo "Incorrect answer ! Would you like to copy perm of $1 to $2 [1] or the opposite [2] ? [1/2]"
+	echo -e "Incorrect answer\nDo you want to keep permision from $1 (firts) or $2 (second) ? [f/s]"
 	read user_choice
 done
+echo -e "\n"
 
 #Executing user choice
 if [ $user_choice -eq 1 ]

@@ -24,18 +24,17 @@ fi
 #Get the last modification date of the 2 files
 lmdFileA=$(stat -c %y $1 | cut -d '.' -f1)
 lmdFileB=$(stat -c %y $2 | cut -d '.' -f1)
-echo -e "Content conflict detected ! Do you want to replace $1 by $2 or the opposite ?"
-echo -e "Last Modification Date :\n $1 [$lmdFileA]\n $2 [$lmdFileB]"
-echo -e "[1] Replace $2 by $1\n [2] Replace $1 by $2\n Your choice [1/2] :"
+echo -e "Content conflict detected\nLast Modification Date :\n $1 [$lmdFileA]\n $2 [$lmdFileB]"
+echo -e "Do you want to replace $1 (first) by $2 (second) or the opposite ? [f/s]"
 
 read userChoice
 
-until [ $userChoice = "1" -o $userChoice = "2" ]
+until [ $userChoice = "f" -o $userChoice = "s" ]
 do
-	echo -e "Incorrect answer ! Please use 1 or 2 to select the relevant option"
-	echo -e "[1] Replace $2 by $1\n [2] Replace $1 by $2\n Your choice [1/2] :"
+	echo -e "Incorrect answer\nDo you want to replace $1 (first) by $2 (second) or the opposite ? [f/s]"
 	read userChoice
 done
+echo -e "\n"
 
 #Executing the corresponding action
 if [ $userChoice -eq 1 ]
