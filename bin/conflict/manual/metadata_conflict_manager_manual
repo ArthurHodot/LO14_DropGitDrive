@@ -20,9 +20,6 @@ then
         exit 2
 fi
 
-#Display error
-echo "Metadatas conflict detected ! Details of the compromised files are described below :"
-
 #Get permissions (readable by human)
 permFileA=$(stat -c %A $1)
 permFileB=$(stat -c %A $2)
