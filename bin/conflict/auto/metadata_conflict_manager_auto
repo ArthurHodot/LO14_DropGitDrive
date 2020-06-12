@@ -23,8 +23,8 @@ then
 fi
 
 #Display error
-echo "Metadatas conflict detected ! Details of the compromised files are described below :"
-
+echo "Metadatas conflict detected !"
+echo ""
 #Get permissions
 permFileA=$(stat -c %a $1)
 permFileB=$(stat -c %a $2)
