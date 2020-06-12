@@ -123,7 +123,7 @@ done
 #Comparaison on all files
 for file in ${contained_files[@]}
 do
-	${root_path}bin/file_comparator "$1/$file" "$2/$file" 0
+	${root_path}bin/file_comparator "$1/$file" "$2/$file"
 done
 
 #Exploration of the other directorys

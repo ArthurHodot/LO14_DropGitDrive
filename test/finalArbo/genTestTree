@@ -1,0 +1,47 @@
+#!/bin/bash
+#Generate the best test tree in the current directory
+
+if [ -d ATree ]
+then
+	rm -rf ATree
+fi
+
+if [ -d BTree ]
+then
+	rm -rf BTree
+fi
+
+#***************************ATree****************************
+#First creating all the dir/files
+mkdir ATree
+cd ATree
+mkdir DirNE DirPerm DirContent DirMeta
+touch DirNE/fileNE
+touch fileNE
+mkdir typeConflict
+echo "This content is different from the other side I guess" >> DirContent/fileContentD
+echo "Same content in the two trees" >> DirContent/perfectFile
+touch DirMeta/filePbDate DirMeta/filePbPerm 
+
+#Giving good metadatas to get some errors
+chmod 555 DirPerm
+touch -d "2 hours ago" DirMeta/filePbDate
+chmod 700 DirMeta/filePbPerm
+
+cd ..
+
+#***************************BTree****************************
+mkdir BTree
+cd BTree
+touch typeConflict
+mkdir DirPerm DirContent DirMeta
+echo "We have a big problem Jackson" >> DirContent/fileContentD
+echo "Same content in the two trees" >> DirContent/perfectFile
+touch DirMeta/filePbDate DirMeta/filePbPerm
+
+#Giving metadatas
+chmod 755 DirPerm
+chmod 755 DirMeta/filePbDate
+
+echo "Test Trees have been generated successfully !"
+exit 0
