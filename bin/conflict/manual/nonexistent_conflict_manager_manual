@@ -31,14 +31,14 @@ else
 fi
 
 #Asking user what to do
-echo "The $elementType $1 don't have any equivalent in the other branche"
-echo "Do you want to copy $1 in $2 or delete $1 ? (copy/delete)"
+echo -e "None existence conflict detected\nThe $elementType $1 don't have any equivalent in the other branche\nDo you want to copy $1 in $2 or delete $1 ? [c/d]"
 read user_choice
-until [ $user_choice == "copy" -o $user_choice == "delete" ]
+until [ $user_choice == "c" -o $user_choice == "d" ]
 do
-	echo "Incorrect answer. Do you want to copy $1 in $2 or delete $1 ? (copy/delete)"
+	echo -e "Incorrect answer\nDo you want to copy $1 in $2 or delete $1 ? (c/d)"
 	read user_choice
 done 
+echo -e "\n"
 
 #Executing user choice
 if [ $user_choice == "copy" ]
