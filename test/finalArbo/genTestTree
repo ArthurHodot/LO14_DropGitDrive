@@ -3,12 +3,12 @@
 
 if [ -d ATree ]
 then
-	rm -r ATree
+	rm -rf ATree
 fi
 
 if [ -d BTree ]
 then
-	rm -r BTree
+	rm -rf BTree
 fi
 
 #***************************ATree****************************

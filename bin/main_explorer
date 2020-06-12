@@ -126,7 +126,7 @@ do
 	echo files :
 	echo "$1/$file"
 	echo "$2/$file"
-	${root_path}bin/file_comparator "$1/$file" "$2/$file" 0
+	${root_path}bin/file_comparator "$1/$file" "$2/$file"
 done
 
 #Exploration of the other directorys
