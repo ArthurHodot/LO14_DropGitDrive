@@ -48,7 +48,7 @@ done
 echo -e "\n"
 
 #Executing selected option
-if [ $userChoice = "1" ]
+if [[ "$userChoice" == "f" ]]
 then
 	#Using copy-paste of file to conserve the metadatas
 	${root_path}bin/element_duplicator $1 $2
