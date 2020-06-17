@@ -37,7 +37,7 @@ done
 echo -e "\n"
 
 #Executing the corresponding action
-if [ $userChoice -eq 1 ]
+if [ $userChoice == "f" ]
 then
 	${root_path}bin/element_duplicator $1 $2
 else
