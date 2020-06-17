@@ -48,11 +48,6 @@ sizeLog=$(echo $lineLog | cut -d " " -f 5)
 dateLog=$(echo $lineLog | cut -d " " -f 4)
 permLog=$(echo $lineLog | cut -d " " -f 3)
 
-#Debug
-echo "SizeLog = $sizeLog"
-echo "dateLog = $dateLog"
-echo "permLog = $permLog"
-
 #Checking if one file has the same metadatas as the log
 #First checking permissions
 if [ $permFileA -eq $permLog -a $permFileB -ne $permLog ]
