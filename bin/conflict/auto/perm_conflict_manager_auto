@@ -30,6 +30,7 @@ dateDirA=$(stat -c %Y $1)
 dateDirB=$(stat -c %Y $2)
 
 echo "A permission conflict has been detected with the folder $1 ($permDirA) and $2 ($permDirB) !"
+echo ""
 
 #Get the line corresponding to the conflicted file
 positionStartSub=$(echo $1 |cut -d "/" -f 1 | wc -c)

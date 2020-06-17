@@ -33,7 +33,7 @@ done
 echo -e "\n"
 
 #Executing user choice
-if [ $user_choice -eq 1 ]
+if [[ "$user_choice" == "f" ]]
 then
 	chmod $permDirA $2
 else

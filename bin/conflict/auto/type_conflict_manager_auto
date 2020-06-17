@@ -50,18 +50,18 @@ then
 	${root_path}bin/element_duplicator $2 $1
 else
 	#Asking user what to do
-	echo "$1 ($elementType1) and $2 ($elementType2) dont have the same type"
-	echo "Which one do you want to keep ? (the other one will be removed) (first/second)"
+	echo "$1 ($elementType1) [first]  and $2 ($elementType2) [second] don't have the same type"
+	echo "Which one do you want to keep ? (the other one will be removed) [f/s]"
 	read user_choice
 
-	until [ $user_choice == "first" -o $user_choice == "second" ]
+	until [ $user_choice == "f" -o $user_choice == "s" ]
 	do
-        	echo "Incorrect answer. Which one do you want to keep ? (the other one will be removed) (first/second) "
+        	echo "Incorrect answer. Which one do you want to keep ? (the other one will be removed) [f/s] "
         	read user_choice
 	done
 
 	#Executing user choice
-	if [ $user_choice == "first" ]
+	if [ $user_choice == "f" ]
 	then
         	rm -r $2
 		${root_path}bin/element_duplicator $1 $2

@@ -54,16 +54,18 @@ then
 	#The element isn't in the log
 	#Asking user what to do
 	echo "The $elementType $1 don't have any equivalent in the other branche"
-	echo "Do you want to copy $1 in $2 or delete $1 ? (copy/delete)"
+	echo "Do you want to copy $1 in $2 or delete $1 ? [c/d]"
 	read user_choice
-	until [ $user_choice == "copy" -o $user_choice == "delete" ]
+	until [ $user_choice == "c" -o $user_choice == "d" ]
 	do
-		echo "Incorrect answer. Do you want to copy $1 in $2 or delete $1 ? (copy/delete)"
+		echo "Incorrect answer. Do you want to copy $1 in $2 or delete $1 ? (c/d)"
 		read user_choice
 	done 
 
+	echo ""
+
 	#Executing user choice
-	if [ $user_choice == "copy" ]
+	if [ $user_choice == "c" ]
 	then
 		${root_path}bin/element_duplicator $1 $2
 	else
@@ -81,7 +83,6 @@ else
 
 	#Get the name of the file to copy to
 	nameFile=$(basename $1)
-	echo "pathExtract : $2/$nameFile"
 	${root_path}bin/element_duplicator $1 "$2/$nameFile"
 fi
 exit 0

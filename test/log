@@ -1,0 +1,9 @@
+synchronizer_log
+d test/finalArbo/ATree/DirContent 755
+f test/finalArbo/ATree/DirContent/fileContentD 644 1592398991 30
+f test/finalArbo/ATree/DirContent/perfectFile 644 1592398991 30
+d test/finalArbo/ATree/DirMeta 755
+f test/finalArbo/ATree/DirMeta/filePbDate 644 1592391791 0
+f test/finalArbo/ATree/DirMeta/filePbPerm 700 1592398991 0
+d test/finalArbo/ATree/DirPerm 555
+f test/finalArbo/ATree/typeConflict 644 1592398991 0

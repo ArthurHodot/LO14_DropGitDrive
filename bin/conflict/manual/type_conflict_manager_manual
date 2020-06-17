@@ -35,7 +35,7 @@ fi
 
 
 #Asking user what to do
-echo -e "Type conflicty detected\n$1 ($elementType1) and $2 ($elementType2) dont have the same type\nDo you want to keep $1 (fisrt) or $2 (second) ? [f/s]"
+echo -e "Type conflict detected\n$1 ($elementType1) and $2 ($elementType2) dont have the same type\nDo you want to keep $1 (fisrt) or $2 (second) ? [f/s]"
 read user_choice
 #user_choice=""
 until [ $user_choice == "f" -o $user_choice == "s" ]
@@ -46,7 +46,7 @@ done
 echo -e "\n"
 
 #Executing user choice
-if [ $user_choice == "first" ]
+if [[ "$user_choice" == "first" ]]
 then
         rm -r $2
 	${root_path}bin/element_duplicator $1 $2
