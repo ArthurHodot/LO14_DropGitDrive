@@ -23,8 +23,6 @@ then
 fi
 
 #Display error
-echo "Metadatas conflict detected !"
-echo ""
 #Get permissions
 permFileA=$(stat -c %a $1)
 permFileB=$(stat -c %a $2)
@@ -66,18 +64,6 @@ else
 	else
 		chmod $permFileB $1
 	fi
-fi
-
-#Then checking size
-if [ $sizeFileA -eq $sizeLog -a $sizeFileB -ne $sizeLog ]
-then
-	#Echo a warning
-	echo "Warning : $2 has a different size compare to the reference log."
-elif [ $sizeFileB -eq $sizeLog -a $sizeFileA -ne $sizeLog ]
-then	
-	echo "Warning : $1 has a different size compare to the reference log."
-else
-	echo "Warning : The log and the others files have a different size compare to each other."
 fi
 
 #Finally checking date

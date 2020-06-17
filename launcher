@@ -75,3 +75,4 @@ path_size_to_delete=$((path_size_to_delete+=1))
 echo "synchronizer_log" > $4
 ${root_path}bin/log_generator $1 path_size_to_delete $4 
 
+rm /tmp/synchronizer_current_log
