@@ -82,7 +82,6 @@ elif [ $sizeFileB -eq $sizeLog -a $sizeFileA -ne $sizeLog ]
 then	
 	echo "Warning : $1 has a different size compare to the reference log."
 else
-	#Maxi-Shit if appears
 	echo "Warning : The log and the others files have a different size compare to each other."
 fi
 
