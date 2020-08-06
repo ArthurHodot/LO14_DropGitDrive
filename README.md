@@ -11,3 +11,4 @@
       `launcher path_TreeA path_TreeB -mode_de_lancement(m/a) path_log`
  > Lors de la première utilisation le chemin du log pointe vers un fichier qui peut être non existant, il sera généré automatiquement après l'exécution du mode manuel.
 
+oui
